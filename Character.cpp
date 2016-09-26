@@ -2,8 +2,6 @@
 
 using namespace std;
 
-class Character {
-
 
 int Character::getX(){
   return xPosition;
@@ -19,18 +17,4 @@ int Character::getWidth(){
 
 int Character::getHeight(){
   return height;
-}
-
-
-Character::move(){
-}
-
-
-
-
-
-
-
-
-
 }

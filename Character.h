@@ -1,9 +1,9 @@
 class Character {
   private:
     int width;
-    int height
+    int height;
     int xPosition;
-    int yPosition
+    int yPosition;
 
   public:
     Character(int w,int h, int x, int y);
@@ -12,3 +12,4 @@ class Character {
     int getY();
     int getWidth();
     int getHeight();
+};

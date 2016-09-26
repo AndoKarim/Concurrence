@@ -1,9 +1,9 @@
 class Point {
-private:
-int x;
-int y;
+  private:
+    int x;
+    int y;
 
-public:
-  Point(int a, int b);
-  ~Point();
-}
+  public:
+    Point(int a, int b);
+    ~Point();
+};

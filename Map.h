@@ -1,3 +1,7 @@
+using namespace std;
+#include "Point.h"
+#include "Character.h"
+
 class Map{
   private :
 
@@ -6,7 +10,7 @@ class Map{
   const unsigned HEIGHT = 128;
   const unsigned WIDTHWALL = 16;
   const unsigned WALLOPENINGHEIGHT1 = 8;
-  const unsigned WALLOPENINGHEIGHT1 = 16;
+  const unsigned WALLOPENINGHEIGHT2 = 16;
   const unsigned WALLDISTANCE = 112;
   //Initialize all points at 0 (free)
   const vector< vector<int> > map(HEIGHT, vector<int>(WIDTH,0));
@@ -15,12 +19,13 @@ class Map{
   public ://Initialize all points at 0 (free)
     Map();
     void addWall();
-    bool check();
-    Point glimpse(string direction);
-    Point bestTile();
+    void printWall();
+    bool check(int a, int b);
+    Point glimpse(Character c, string direction);
+    Point bestTile(string direction);
 
 
 
 
 
-}
+};
