@@ -2,6 +2,15 @@
 
 using namespace std;
 
+Character::Character(){}
+
+
+Character::Character(int w, int h, int x, int y){
+  width = w;
+  height = h;
+  xPosition = x;
+  yPosition= y;
+}
 
 int Character::getX(){
   return xPosition;
