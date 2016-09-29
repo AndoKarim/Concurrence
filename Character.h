@@ -6,6 +6,7 @@ class Character {
     int yPosition;
 
   public:
+    Character();
     Character(int w,int h, int x, int y);
     // void move(string direction);
     int getX();
