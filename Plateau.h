@@ -1,8 +1,6 @@
 using namespace std;
 typedef vector<int> Row; // One row of the matrix
 typedef vector<Row> Matrix; // Matrix: a vector of rows
-#include "Point.h"
-#include "Character.h"
 class Plateau{
   private :
 
@@ -24,8 +22,7 @@ class Plateau{
     void addWall();
     void printWall();
     bool check(int a, int b);
-    Point glimpse(Character c, string direction);
-    Point bestTile(string direction);
+    // Point glimpse(Character c, string direction);
 
 
 

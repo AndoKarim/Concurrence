@@ -6,19 +6,19 @@ using namespace std;
 Character::Character(){}
 
 
-Character::Character(int w, int h, int x, int y){
-  width = w;
-  height = h;
-  xPosition = x;
-  yPosition= y;
+Character::Character(int x, int y){
+  position = Point(x,y);
+}
+
+Character::Character(Point p){
+  position = p;
 }
 
 int Character::getX(){
-  return xPosition;
+  return position.getX();
 }
 int Character::getY(){
-  return yPosition;
-
+  return position.getY();
 }
 
 int Character::getWidth(){
@@ -29,24 +29,6 @@ int Character::getHeight(){
   return height;
 }
 
-// void Character::move(string direction){
-//   // if(strcmp(direction,"right")==0){
-//   //
-//   // }
-//   // //   if(strcmp(direction,"right")==0){
-//   // //
-//   // // }
-//   // // if(strcmp(direction,"right")==0){
-//   // //
-//   // // }
-//   // // if(strcmp(direction,"right")==0){
-//   // //
-//   // // }
-//   // // if(strcmp(direction,"right")==0){
-//   // //
-//   // // }
-//   // // if(strcmp(direction,"right")==0){
-//   // //
-//   // // }
-//
-// }
+void Character::move(Point p){
+  position = p;
+}

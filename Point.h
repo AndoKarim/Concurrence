@@ -4,6 +4,9 @@ class Point {
     int y;
 
   public:
+    Point();
     Point(int a, int b);
-    ~Point();
+
+    int getX();
+    int getY();
 };
