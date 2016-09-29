@@ -19,6 +19,5 @@ Motor::Motor(){
 int main(){
 
   Motor m = Motor();
-  m.affiche();
 
 }
