@@ -6,69 +6,82 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "Map.h"
-#include "Point.h"
+#include "Plateau.h"
 
 using namespace std;
 
     //typedef vector<vector<bool> >Ground;
-    //Ground map(HEIGHT, std::vector<bool> (WIDTH, 0));
+    //Ground plateau(HEIGHT, std::vector<bool> (WIDTH, 0));
 
     //typedef vector<vector<bool> >Grille;
     //Grille g(128, std::vector<bool> (512, false));
     //Initialize all points at 0 (free)
 
-    //vector< vector<bool> > map(HEIGHT, vector<bool>(WIDTH));
+    //vector< vector<bool> > plateau(HEIGHT, vector<bool>(WIDTH));
 
 
-    void Map::addWall()
+  Plateau::Plateau(){
+    grille = Matrix(HEIGHT,Row(WIDTH));
+  }
+
+  void Plateau::setCase(int x, int y){
+    grille[x][y] = 1;
+  }
+
+  int Plateau::getCase(int x, int y){
+    return grille[x][y];
+  }
+
+
+
+    void Plateau::addWall()
     {
         for(int i = 0; i < HEIGHT; i++){
             for(int j = 0; j < WIDTHWALL; j++){
-                if(i < (this.HEIGHT-WALLOPENINGHEIGHT1/2 || i >= (HEIGHT+WALLOPENINGHEIGHT1/2)
-                    map[i][j]=1;
+                if(i < (HEIGHT-WALLOPENINGHEIGHT1/2 || i >= (HEIGHT+WALLOPENINGHEIGHT1/2)))
+                    grille[i][j]=1;
             }
             for(int j = 0+WALLDISTANCE; j < WIDTHWALL+WALLDISTANCE; j++){
                 if(i < (HEIGHT-WALLOPENINGHEIGHT2)/2 || i >= (HEIGHT+WALLOPENINGHEIGHT2)/2)
-                    map[i][j]=1;
+                    grille[i][j]=1;
             }
         }
     }
 
-    void Map::printWall()
+    void Plateau::printWall()
     {
         for(int i = 0; i < HEIGHT; i++){
             for(int j = 0; j < WIDTH ; j++){
-                if(map[i][j]==1)
+                if(grille[i][j]==1)
                     printf("IL Y A UN MUR EN %d, %d\n", i,j );
             }
         }
     }
 
-    bool Map::check(int x, int y){
-      return map[x][y];
+    bool Plateau::check(int x, int y){
+      return grille[x][y];
     }
 
-    Point Map::bestTile(string direction){
+    Point Plateau::bestTile(string direction){
       //TODO : distance between the arrival and the position of the char.s
     }
 
-     Point Map::glimpse(Character c, string direction){
+     Point Plateau::glimpse(Character c, string direction){
        //TODO : Same algo for all directions.
 
-      if(direction.compare("left")
-      if(direction.compare("right")
-      if(direction.compare("up"){
-        int i = xposition-1;
-        for(int j = yposition-1 ; j<=y+width; j++){
-          bool = check(i,j);
-          if(bool){
-            return Point(c.getX(), c.getY());
-          }
-        }
-        return bestTile();
-      }
-      if(direction.compare("down")
+      // if(direction.compare("left"))
+      // if(direction.compare("right"))
+      // if(direction.compare("up")){
+      //   int i = xposition-1;
+      //   for(int j = yposition-1 ; j<=y+width; j++){
+      //     bool = check(i,j);
+      //     if(bool){
+      //       return Point(c.getX(), c.getY());
+      //     }
+      //   }
+      //   return bestTile();
+      // }
+      // if(direction.compare("down"))
 
     }
 
@@ -85,10 +98,14 @@ int main()
     // goliath.changerArme("Double hache tranchante vénéneuse de la mort", 40);
     // goliath.attaquer(david);
 
-    Map map1;
+    // plateau plateau1;
+    //
+    // plateau1.addWall();
+    // plateau1.printWall();
 
-    map1.addWall();
-    map1.printWall();
+    Plateau  p = Plateau();
+    p.addWall();
+    p.printWall();
 
     return 0;
 }
