@@ -1,10 +1,11 @@
 #include <iostream>
 #include "OptionChecker.h"
+
 using namespace std;
 
 
-OptionChecker::OptionChecker(int argc, char* argv[]){
-  OptionChecker::parameterFiller(argc,argv);
+OptionChecker::OptionChecker(int argc, char *argv[]) {
+  OptionChecker::parameterFiller(argc, argv);
   OptionChecker::parameterChecker();
   cout << "Parameter test OK" << endl;
 
@@ -18,7 +19,7 @@ bool OptionChecker::checkPeople(int people) {
   return (people >= 0 && people < 10);
 }
 
-void OptionChecker::parameterFiller(int nbArgs, char* parameters[]){
+void OptionChecker::parameterFiller(int nbArgs, char *parameters[]) {
   extern char *optarg;
   int c;
   while ((c = getopt(nbArgs, parameters, PARAM_MASK)) != -1) {
@@ -38,7 +39,7 @@ void OptionChecker::parameterFiller(int nbArgs, char* parameters[]){
   }
 }
 
-void OptionChecker::parameterChecker(){
+void OptionChecker::parameterChecker() {
   if (!peopleArg) {
     cerr << "No people parameter" << endl;
     exit(1);
@@ -51,13 +52,21 @@ void OptionChecker::parameterChecker(){
   if (peopleArg) {
     if (threadArg) {
       if (!checkThread(nbThread)) {
-        cerr << "Parameter of thread invalid" <<endl;
+        cerr << "Parameter of thread invalid" << endl;
         exit(1);
       }
-      if(!checkPeople(nbPeople)){
-        cerr <<"Number of people invalid" <<endl;
+      if (!checkPeople(nbPeople)) {
+        cerr << "Number of people invalid" << endl;
         exit(1);
       }
     }
   }
+}
+
+int OptionChecker::getnbPeople() {
+  return nbPeople;
+}
+
+int OptionChecker::getnbThread() {
+  return nbThread;
 }

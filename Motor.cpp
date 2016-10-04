@@ -10,8 +10,10 @@
 
 using namespace std;
 
-Motor::Motor() {
-
+Motor::Motor(int nbPl, int nbTd){
+  nbPlayers = nbPl;
+  nbThreads = nbTd;
+  //players = new Character[nbPlayers];
 }
 
 

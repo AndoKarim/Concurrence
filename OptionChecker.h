@@ -17,4 +17,6 @@ private :
 
 public:
     OptionChecker(int argc, char* argv[]);
+    int getnbPeople();
+    int getnbThread();
 };

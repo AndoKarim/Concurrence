@@ -1,10 +1,17 @@
+#include <vector>
+#include <stdio.h>
+#include <cstdlib>
+#include <ctime>
+
+
 using namespace std;
 typedef vector<int> Row; // One row of the matrix
 typedef vector<Row> Matrix; // Matrix: a vector of rows
+
 class Plateau{
   private :
 
-  //Site of the Map
+  //Size of the Map
   const unsigned WIDTH = 512;
   const unsigned HEIGHT = 128;
   const unsigned WIDTHWALL = 16;
@@ -23,9 +30,5 @@ class Plateau{
     void printWall();
     bool check(int a, int b);
     // Point glimpse(Character c, string direction);
-
-
-
-
 
 };
