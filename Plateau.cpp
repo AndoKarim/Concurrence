@@ -10,6 +10,8 @@
 
 using namespace std;
 
+//TODO : If -t1, create a new constructor which gonna creates threads for diferent parts of the plateau.Else, create just a simple plateau
+
   Plateau::Plateau(){
     grille = Matrix(HEIGHT,Row(WIDTH));
   }
