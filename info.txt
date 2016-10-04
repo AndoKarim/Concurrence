@@ -1,0 +1,6 @@
+x= numero de la colonne  y= numero de la lugne donc faut faire [y][x]
+
+dans la grille:
+  - 0 = casse vide
+  - 1 = MUR
+  - 2 = personne
