@@ -10,14 +10,8 @@
 
 using namespace std;
 
-
-Motor::Motor(){
-
-}
-
-
-int main(){
-
-  Motor m = Motor();
+Motor::Motor() {
 
 }
+
+
