@@ -54,7 +54,7 @@ using namespace std;
       return grille[y][x];
     }
 
-    bool Plateau::addPeople(int x, int y){
+    bool Plateau::addPlayer(int x, int y){
       if(x < 0 || y < 0)
 		    return false;
 	    if(x + 3 > 511)

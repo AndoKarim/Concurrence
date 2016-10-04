@@ -14,16 +14,16 @@ Motor::Motor(int nbPl, int nbTd){
   nbPlayers = nbPl;
   nbThreads = nbTd;
   plateau = Plateau();
-  this->createPeople();
-  printAllPlayers();
+  this->createPlayers();
+  //printAllPlayers();
 }
 
-void Motor::createPeople(){
+void Motor::createPlayers(){
   for(int i = 0; i<this->nbPlayers;i++){
     int randX = rand()% 512;
     int randY = rand()% 128;
     cout << "X : " << randX << " Y : " << randY << endl;
-    while(!plateau.addPeople(randX,randY)){
+    while(!plateau.addPlayer(randX,randY)){
       randX = rand()% 512;
       randY = rand()% 128;
     }

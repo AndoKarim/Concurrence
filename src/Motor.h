@@ -10,7 +10,7 @@ private :
     Plateau plateau;
     list<Character> listPlayers;
 
-    void createPeople();
+    void createPlayers();
 
   public :
     Motor(int nbPlayers, int nbthreads);

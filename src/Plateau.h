@@ -21,19 +21,17 @@ class Plateau{
   //Initialize all points at 0 (free)
   Matrix grille;
   void initialize();
-  //const vector< vector<int> > plateau(HEIGHT, vector<int>(WIDTH,0));
 
-  public ://Initialize all points at 0 (free)
+  public :
     Plateau();
     void setCase(int a, int b);
     int getCase(int a, int b);
     void addWall();
     void printWall();
-    bool addPeople(int x, int y);
+    bool addPlayer(int x, int y);
     bool check(int a, int b);
 
     // clone
     Plateau& operator=(const Plateau&);
-    // Point glimpse(Character c, string direction);
 
 };
