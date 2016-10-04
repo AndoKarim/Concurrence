@@ -15,4 +15,5 @@ private :
   public :
     Motor(int nbPlayers, int nbthreads);
     void printAllPlayers();
+    void run();
 };

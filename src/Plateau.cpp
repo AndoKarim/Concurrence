@@ -54,7 +54,7 @@ using namespace std;
       return grille[y][x];
     }
 
-    bool Plateau::addPlayer(int x, int y){
+    bool Plateau::checkCase(int x, int y){
       if(x < 0 || y < 0)
 		    return false;
 	    if(x + 3 > 511)
@@ -70,6 +70,13 @@ using namespace std;
               }
 		      }
 	    }
+      return true;
+    }
+
+    bool Plateau::addPlayer(int x, int y){
+
+      if(!this->checkCase(x,y))
+        return false;
 
       for(int pos_x = 0; pos_x < 4; pos_x++){
 		      for(int pos_y = 0; pos_y < 4; pos_y++){

@@ -5,17 +5,52 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <ctime>
+#include <pthread.h>
 
 #include "Motor.h"
 
 using namespace std;
+
+void *moveAll(void *t_data){
+  cout << "MoveAll" <<endl;
+
+  if (t_data != NULL){
+    Motor* m=(Motor*) t_data;
+    /* Fct qui doit faire bouger tous les joueurs pendant toute la durée du jeu lorsque l'on a l'option -t0
+    Tant que le jeu n'est pas fini, on prend la liste des joueurs et on fait avancer chacun d'eux
+    */
+  }else{
+    cerr << "error in thread" << endl;
+  }
+
+}
+
+
+void Motor::run(){
+
+  if(nbThreads == 0){
+        pthread_t t0;
+        pthread_create(&t0, NULL, moveAll , this);
+        pthread_join(t0, NULL);
+  }
+
+  if(nbThreads == 1){
+
+  }
+
+  if(nbThreads == 2){
+
+  }
+
+}
 
 Motor::Motor(int nbPl, int nbTd){
   nbPlayers = nbPl;
   nbThreads = nbTd;
   plateau = Plateau();
   this->createPlayers();
-  //printAllPlayers();
+
+  this->run();
 }
 
 void Motor::createPlayers(){

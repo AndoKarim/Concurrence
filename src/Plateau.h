@@ -30,6 +30,7 @@ class Plateau{
     void printWall();
     bool addPlayer(int x, int y);
     bool check(int a, int b);
+    bool checkCase(int x, int y);
 
     // clone
     Plateau& operator=(const Plateau&);

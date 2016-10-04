@@ -9,11 +9,11 @@ OBJECTS = $(SOURCES:.cpp=.o)
 
 # Main target
 $(EXEC): $(OBJECTS)
-	$(CC) ../bin/*.o -o ../bin/$(EXEC)
+	$(CC) ../bin/*.o -o ../bin/$(EXEC) -lpthread
 
 # To obtain object files
 %.o: %.cpp
-	$(CC) -c $(CC_FLAGS) $< -o ../bin/$@
+	$(CC) -c $(CC_FLAGS) $< -o ../bin/$@ 
 
 # To remove generated files
 clean:
