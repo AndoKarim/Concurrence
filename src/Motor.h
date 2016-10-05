@@ -16,4 +16,5 @@ private :
     Motor(int nbPlayers, int nbthreads);
     void printAllPlayers();
     void run();
+    Point changePosition(int x, int y);
 };
