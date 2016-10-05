@@ -71,3 +71,75 @@ void Motor::printAllPlayers(){
   for (list<Character>::iterator it=this->listPlayers.begin(); it!=this->listPlayers.end(); ++it)
 	    it-> print();
 }
+
+Point Motor::changePosition(int x, int y){
+  int LockD = 0;
+  int LockH = 0;
+  int LockV = 0;
+
+  if(y < plateau.getYAzimut()){
+    for(int i = 0; i < 5; i++){
+      if(!(plateau.checkCase(x-1, y+i))){
+        if(i!=4)
+          LockH = 1;
+        if(i!=0)
+          LockD = 1;
+      }
+    }
+
+    for(int i = 0; i < 4; i++){
+      if(!(plateau.checkCase(x+i, y+4))){
+        LockV = 1;
+        if(i!=3)
+          LockD = 1;
+      }
+    }
+    if(LockD == 0){
+      return Point(x-1, y+1);
+    }else if(LockH ==0){
+      return Point(x-1, y);
+    }else if(LockV == 0){
+      return Point(x, y+1);
+    }else{
+      return Point(x, y);
+    }
+  }else if(y > plateau.getYAzimut()){
+    for(int i = 0; i < 5; i++){
+      if(!(plateau.checkCase(x-1, y-i+3))){
+        if(i!=4)
+          LockH = 1;
+        if(i!=0)
+          LockD = 1;
+      }
+    }
+
+    for(int i = 0; i < 4; i++){
+      if(!(plateau.checkCase(x+i, y-1))){
+        LockV = 1;
+        if(i!=3)
+          LockD = 1;
+      }
+    }
+    if(LockD == 0){
+      return Point(x-1, y-1);
+    }else if(LockH ==0){
+      return Point(x-1, y);
+    }else if(LockV == 0){
+      return Point(x, y-1);
+    }else{
+      return Point(x, y);
+    }
+  }
+  else{
+    for(int i = 0; i < 4; i++){
+      if(!(plateau.checkCase(x-1, y+i))){
+        LockH = 1;
+      }
+    }
+    if(LockH == 0){
+      return Point(x-1, y);
+    }else{
+      return Point(x, y);
+    }
+  }
+}

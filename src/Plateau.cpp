@@ -93,6 +93,16 @@ using namespace std;
     }
 
 
+    int Plateau::getXAzimut(){
+      return XAZIMUT;
+    }
+
+    int Plateau::getYAzimut(){
+      return YAZIMUT;
+    }
+
+
+
 
 
 

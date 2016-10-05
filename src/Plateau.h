@@ -18,6 +18,8 @@ class Plateau{
   const unsigned WALLOPENINGHEIGHT1 = 8;
   const unsigned WALLOPENINGHEIGHT2 = 16;
   const unsigned WALLDISTANCE = 112;
+  const unsigned XAZIMUT = 0;
+  const unsigned YAZIMUT = 63;
   //Initialize all points at 0 (free)
   Matrix grille;
   void initialize();
@@ -31,6 +33,9 @@ class Plateau{
     bool addPlayer(int x, int y);
     bool check(int a, int b);
     bool checkCase(int x, int y);
+    int getXAzimut();
+    int getYAzimut();
+
 
     // clone
     Plateau& operator=(const Plateau&);
