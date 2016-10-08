@@ -60,7 +60,6 @@ Motor::Motor(int nbPl, int nbTd){
   nbThreads = nbTd;
   plateau = Plateau();
   this->createPlayers();
-
   this->run();
 }
 
@@ -88,18 +87,19 @@ Point Motor::changePosition(int x, int y){
   int LockH = 0;
   int LockV = 0;
 
-  if(y < plateau.getYAzimut()){
+  if((y < (plateau.getHeigth()-plateau.getOpenHeigthWall1())/2 && x < plateau.getWidthLastWall()) 
+    || (y < (plateau.getHeigth()-plateau.getOpenHeigthWall2())/2 && x >= plateau.getWidthLastWall())){
+  //if((y < 60 && x < 128) || (y < 56 && x > 127)){
     for(int i = 0; i < 5; i++){
-      if(!(plateau.checkCase(x-1, y+i))){
+      if(plateau.check(x-1, y+i)){
         if(i!=4)
           LockH = 1;
         if(i!=0)
           LockD = 1;
       }
     }
-
     for(int i = 0; i < 4; i++){
-      if(!(plateau.checkCase(x+i, y+4))){
+      if(plateau.check(x+i, y+4)){
         LockV = 1;
         if(i!=3)
           LockD = 1;
@@ -114,18 +114,20 @@ Point Motor::changePosition(int x, int y){
     }else{
       return Point(x, y);
     }
-  }else if(y > plateau.getYAzimut()){
+  //}else if((y > 67 && x < 128) || (y > 71 && x > 127)){
+  }else if((y >= (plateau.getHeigth()+plateau.getOpenHeigthWall1())/2 && x < plateau.getWidthLastWall()) 
+          || (y >= (plateau.getHeigth()+plateau.getOpenHeigthWall2())/2 && x >= plateau.getWidthLastWall())){
+
     for(int i = 0; i < 5; i++){
-      if(!(plateau.checkCase(x-1, y-i+3))){
+      if(plateau.check(x-1, y-i+3)){
         if(i!=4)
           LockH = 1;
         if(i!=0)
           LockD = 1;
       }
     }
-
     for(int i = 0; i < 4; i++){
-      if(!(plateau.checkCase(x+i, y-1))){
+      if(plateau.check(x+i, y-1)){
         LockV = 1;
         if(i!=3)
           LockD = 1;
@@ -143,7 +145,7 @@ Point Motor::changePosition(int x, int y){
   }
   else{
     for(int i = 0; i < 4; i++){
-      if(!(plateau.checkCase(x-1, y+i))){
+      if(plateau.check(x-1, y+i)){
         LockH = 1;
       }
     }
