@@ -10,7 +10,7 @@ using namespace std;
 
   Plateau::Plateau(){
     grille = Matrix(HEIGHT,Row(WIDTH));
-    this->initialize();
+    this->addWall();
   }
 
   void Plateau::initialize(){
@@ -30,7 +30,7 @@ using namespace std;
     {
         for(int i = 0; i < HEIGHT; i++){
             for(int j = 0; j < WIDTHWALL; j++){
-                if(i < (HEIGHT-WALLOPENINGHEIGHT1/2 || i >= (HEIGHT+WALLOPENINGHEIGHT1/2)))
+                if(i < (HEIGHT-WALLOPENINGHEIGHT1)/2 || i >= (HEIGHT+WALLOPENINGHEIGHT1)/2)
                     grille[i][j]=1;
             }
             for(int j = 0+WALLDISTANCE; j < WIDTHWALL+WALLDISTANCE; j++){
@@ -99,6 +99,22 @@ using namespace std;
 
     int Plateau::getYAzimut(){
       return YAZIMUT;
+    }
+
+    int Plateau::getHeigth(){
+      return HEIGHT;
+    }
+
+    int Plateau::getOpenHeigthWall1(){
+      return WALLOPENINGHEIGHT1;
+    }
+
+    int Plateau::getOpenHeigthWall2(){
+      return WALLOPENINGHEIGHT2;
+    }
+
+    int Plateau::getWidthLastWall(){
+      return WIDTHLASTWALL;
     }
 
 
