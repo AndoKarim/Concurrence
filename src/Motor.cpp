@@ -28,7 +28,7 @@ void *moveAll(void *t_data){
 
 void Motor::run(){
 
-  if(nbThreads == 0){
+  if(nbThreads == 0){ // On peut enlever ce thread et lancer dans le main
     pthread_t t0;
     pthread_create(&t0, NULL, moveAll , this);
     pthread_join(t0, NULL);
@@ -39,10 +39,10 @@ void Motor::run(){
     pthread_t t1;
     pthread_t t2;
     pthread_t t3;
-    pthread_create(&t0, NULL, moveAll , this); //s'occupe de la partie nord ouest
-    pthread_create(&t1, NULL, moveAll , this); //s'occupe de la partie nord est
-    pthread_create(&t2, NULL, moveAll , this); //s'occupe de la partie sud ouest
-    pthread_create(&t3, NULL, moveAll , this); //s'occupe de la partie sud est
+    pthread_create(&t0, NULL, moveNO , this); //s'occupe de la partie nord ouest
+    pthread_create(&t1, NULL, moveNE , this); //s'occupe de la partie nord est
+    pthread_create(&t2, NULL, moveSO , this); //s'occupe de la partie sud ouest
+    pthread_create(&t3, NULL, moveSE , this); //s'occupe de la partie sud est
     pthread_join(t0, NULL);
     pthread_join(t1, NULL);
     pthread_join(t2, NULL);
