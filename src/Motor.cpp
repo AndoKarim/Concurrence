@@ -137,114 +137,6 @@ void *movePerson(void *t_data){
   }
 }
 
-
-
-
-Motor::Motor(int nbPl, int nbTd, bool nbMs){
-  nbPlayers = nbPl;
-  nbThreads = nbTd;
-  needMeasures = nbMs;
-  plateau = Plateau();
-  this->createPlayers();
-  /*this->changePosition(508,0);
-  this->changePosition(508,124);
-  this->changePosition(508, 25);
-  this->changePosition(508, 63);
-  this->changePosition(508, 110);
-  this->changePosition(128,0);
-  this->changePosition(128,6);
-  this->changePosition(128,55);
-  this->changePosition(128,56);
-  this->changePosition(128,124);
-  this->changePosition(128,90);
-  this->changePosition(127,56);
-  this->changePosition(127,59);
-  this->changePosition(127,61);
-  this->changePosition(127,63);
-  this->changePosition(127,68);
-  this->changePosition(128,69);
-  this->changePosition(128,70);
-  this->changePosition(16,0);
-  this->changePosition(16,25);
-  this->changePosition(16,59);
-  this->changePosition(16,60);
-  this->changePosition(16,64);
-  this->changePosition(16,65);
-  this->changePosition(16,80);
-  this->changePosition(16,124);*/
-  if(needMeasures){
-
-   for(int i=0; i<5; i++){
-     struct rusage r_usage;
-     clock_t start_t;
-     clock_t end_t;
-     //time_t t1;
-     //time_t t2;
-
-     if(i!=0 && i!=4){
-       //t1 = time(0);
-       start_t = clock();
-     }
-
-     this->run();
-     for(int j=0; j< 100000000; j++){}
-
-     if(i!=0 && i!=4){
-       end_t = clock ();
-       //t2 = time(0);
-
-
-       measuresTab[i-1] = ((float)(end_t - start_t))/CLOCKS_PER_SEC;
-       //time = time + (t2 - t1);
-
-       getrusage(RUSAGE_SELF,&r_usage);
-       maxResident = maxResident + r_usage.ru_maxrss;
-
-       printf("Memory usage = %ld\n",maxResident);
-       printf("Memory usage = %ld\n",r_usage.ru_maxrss);
-       //printf("AVEC TIME ON OBTIENT = %ld\n",(t2 - t1));
-       printf ("Temps d'execution pour %d---> %f.\n\n", i+1, measuresTab[i-1]);
-
-     }
-     else{
-       printf ("Temps d'execution pour %d---> %f.\n\n", i+1, ((float)(clock() - start_t))/CLOCKS_PER_SEC);
-     }
-
-
-     /*clock_t start_t;
-     start_t = clock();
-     struct rusage r_usage;
-     this->run();
-     for(int i=0; i< 100000000; i++){}
-     getrusage(RUSAGE_SELF,&r_usage);
-     printf("Memory usage = %ld\n",r_usage.ru_maxrss);
-     if(i!=0 && i!=4){
-       measuresTab[i] = clock() - start_t;
-       maxResident = maxResident + r_usage.ru_maxrss;
-     }
-     printf("maxResident--->%ld\n", maxResident);
-     printf ("Temps d'execution pour %d---> %f.\n\n", i, ((float)measuresTab[i])/CLOCKS_PER_SEC);*/
-   }
-
-   float moyenne;
-
-   for(int i=0; i<3; i++){
-     moyenne = moyenne + measuresTab[i];
-     printf("%f\n", measuresTab[i]);
-   }
-   printf("TOTAL DES TEMPS---->%f\n", moyenne);
-   moyenne = moyenne / 3;
-   maxResident = maxResident / 3;
-
-   printf ("Temps d'execution moyen ---> %f et une empreinte maximale moyenne de %ld.\n", moyenne, maxResident);
-
-   //printf("Le temps moyen de calcul pour le programme est de %lf\n", moyenne);
- }
- else{
-   this->run();
- }
-}
-
 void Motor::run(){
 
   if(nbThreads == 0){ // On peut enlever ce thread et lancer dans le main
@@ -286,6 +178,41 @@ void Motor::run(){
     }
   }
 
+}
+
+Motor::Motor(int nbPl, int nbTd, bool nbMs){
+  nbPlayers = nbPl;
+  nbThreads = nbTd;
+  needMeasures = nbMs;
+  plateau = Plateau();
+  this->createPlayers();
+  /*this->changePosition(508,0);
+  this->changePosition(508,124);
+  this->changePosition(508, 25);
+  this->changePosition(508, 63);
+  this->changePosition(508, 110);
+  this->changePosition(128,0);
+  this->changePosition(128,6);
+  this->changePosition(128,55);
+  this->changePosition(128,56);
+  this->changePosition(128,124);
+  this->changePosition(128,90);
+  this->changePosition(127,56);
+  this->changePosition(127,59);
+  this->changePosition(127,61);
+  this->changePosition(127,63);
+  this->changePosition(127,68);
+  this->changePosition(128,69);
+  this->changePosition(128,70);
+  this->changePosition(16,0);
+  this->changePosition(16,25);
+  this->changePosition(16,59);
+  this->changePosition(16,60);
+  this->changePosition(16,64);
+  this->changePosition(16,65);
+  this->changePosition(16,80);
+  this->changePosition(16,124);*/
+  this->run();
 }
 
 void Motor::createPlayers(){
@@ -343,6 +270,8 @@ void Motor::avancer(int index,Character& p){
     p.move(pt);
   }
   p.print();
+  listPlayers[index] = p;
+  this->plateau.printAllPlayersCases();
 }
 
 Point Motor::changePosition(int x, int y){
