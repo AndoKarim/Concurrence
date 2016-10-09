@@ -60,6 +60,32 @@ Motor::Motor(int nbPl, int nbTd){
   nbThreads = nbTd;
   plateau = Plateau();
   this->createPlayers();
+  /*this->changePosition(508,0);
+  this->changePosition(508,124);
+  this->changePosition(508, 25);
+  this->changePosition(508, 63);
+  this->changePosition(508, 110);
+  this->changePosition(128,0);
+  this->changePosition(128,6);
+  this->changePosition(128,55);
+  this->changePosition(128,56);
+  this->changePosition(128,124);
+  this->changePosition(128,90);
+  this->changePosition(127,56);
+  this->changePosition(127,59);
+  this->changePosition(127,61);
+  this->changePosition(127,63);
+  this->changePosition(127,68);
+  this->changePosition(128,69); 
+  this->changePosition(128,70); 
+  this->changePosition(16,0);
+  this->changePosition(16,25);
+  this->changePosition(16,59);
+  this->changePosition(16,60);
+  this->changePosition(16,64);
+  this->changePosition(16,65);
+  this->changePosition(16,80);
+  this->changePosition(16,124);*/
   this->run();
 }
 
@@ -106,12 +132,16 @@ Point Motor::changePosition(int x, int y){
       }
     }
     if(LockD == 0){
+      //printf("Oui Diagonale de: %d, %d à %d, %d \n", x, y, x-1, y+1);
       return Point(x-1, y+1);
     }else if(LockH ==0){
+      //printf("Oui Horizontal de: %d, %d à %d, %d \n", x, y, x-1, y);
       return Point(x-1, y);
     }else if(LockV == 0){
+      //printf("Oui Vertical de: %d, %d à %d, %d \n", x, y, x, y+1);
       return Point(x, y+1);
     }else{
+      //printf("Non pas bouger en: %d, %d \n", x, y);
       return Point(x, y);
     }
   }else if((y >= ((plateau.getHeigth()+plateau.getOpenHeigthWall1())/2)-3 && x < plateau.getWidthLastWall())
@@ -134,12 +164,16 @@ Point Motor::changePosition(int x, int y){
       }
     }
     if(LockD == 0){
+      //printf("Oui Diagonale de: %d, %d à %d, %d \n", x, y, x-1, y-1);
       return Point(x-1, y-1);
     }else if(LockH ==0){
+      //printf("Oui Horizontal de: %d, %d à %d, %d \n", x, y, x-1, y);
       return Point(x-1, y);
     }else if(LockV == 0){
+      //printf("Oui Vertical de: %d, %d à %d, %d \n", x, y, x, y-1);
       return Point(x, y-1);
     }else{
+      //printf("Non pas bouger en: %d, %d \n", x, y);
       return Point(x, y);
     }
   }
@@ -150,8 +184,10 @@ Point Motor::changePosition(int x, int y){
       }
     }
     if(LockH == 0){
+      //printf("Oui Horizontal de: %d, %d à %d, %d \n", x, y, x-1, y);
       return Point(x-1, y);
     }else{
+      //printf("Non pas bouger en: %d, %d \n", x, y);
       return Point(x, y);
     }
   }
