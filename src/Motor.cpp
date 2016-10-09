@@ -114,9 +114,9 @@ Point Motor::changePosition(int x, int y){
     }else{
       return Point(x, y);
     }
-  //}else if((y > 67 && x < 128) || (y > 71 && x > 127)){
-  }else if((y >= (plateau.getHeigth()+plateau.getOpenHeigthWall1())/2 && x < plateau.getWidthLastWall()) 
-          || (y >= (plateau.getHeigth()+plateau.getOpenHeigthWall2())/2 && x >= plateau.getWidthLastWall())){
+  }else if((y >= ((plateau.getHeigth()+plateau.getOpenHeigthWall1())/2)-3 && x < plateau.getWidthLastWall())
+           || (y >= ((plateau.getHeigth()+plateau.getOpenHeigthWall2())/2)-3 && x >= plateau.getWidthLastWall())){
+
 
     for(int i = 0; i < 5; i++){
       if(plateau.check(x-1, y-i+3)){
