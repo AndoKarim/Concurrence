@@ -2,6 +2,8 @@ using namespace std;
 #include "Character.h"
 #include "Plateau.h"
 #include <vector>
+#include <sys/time.h>
+#include <sys/resource.h>
 
 class Motor{
 private :
@@ -19,8 +21,8 @@ private :
 
   public :
     Motor(int nbPlayers, int nbthreads);
-    void setPlayer(int i,Character c);
     Motor(int nbPlayers, int nbthreads, bool needmeasures);
+    void setPlayer(int i,Character c);
     void printAllPlayers();
     void run();
     Point changePosition(int x, int y);
