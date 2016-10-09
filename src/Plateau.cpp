@@ -16,8 +16,8 @@ using namespace std;
   void Plateau::initialize(){
   }
 
-  void Plateau::setCase(int x, int y){
-    grille[y][x] = 1;
+  void Plateau::setCase(int x, int y, int value){
+    grille[y][x] = value;
   }
 
   int Plateau::getCase(int x, int y){
@@ -73,23 +73,56 @@ using namespace std;
       return true;
     }
 
+    void Plateau::movePlayer(int x, int y, int new_x, int new_y){
+      //if(checkCase(new_x,new_y) && x > 0 && y > 0 && x + 3 < 511 && y + 3 < 127){
+        removePlayer(x,y);
+        addPlayer(new_x,new_y);
+      //}else { cout<< "impo"<< endl;}
+    }
+
     bool Plateau::addPlayer(int x, int y){
 
       if(!this->checkCase(x,y))
         return false;
 
-      for(int pos_x = 0; pos_x < 4; pos_x++){
-		      for(int pos_y = 0; pos_y < 4; pos_y++){
-			         this->grille[y][x] = 2;
+      for(int delta_y = 0; delta_y < 4; delta_y++){
+        for(int delta_x = 0; delta_x < 4; delta_x++){
+		         this->grille[y+delta_y][x+delta_x] = 2;
 		      }
 	    }
       cout << "added successfully" << endl;
 	    return true;
     }
 
+    void Plateau::removePlayer(int x, int y){
+      for(int delta_y = 0; delta_y < 4; delta_y++){
+        for(int delta_x = 0; delta_x < 4; delta_x++){
+		         this->grille[y+delta_y][x+delta_x] = 0;
+		      }
+	    }
+    }
+
     Plateau &Plateau::operator=(const Plateau &other){
       this->grille = other.grille;
       return *this;
+    }
+
+    void Plateau::printAllPlayersCases(){
+      //TEST
+      int count = 0;
+      for(int i = 0; i < HEIGHT; i++){
+          for(int j = 0; j < WIDTH ; j++){
+              if(grille[i][j]==2){
+                  printf("IL Y A UNE PERSONNE EN %d, %d\n", j,i );
+                  count++;
+              }
+          }
+      }
+      //TEST
+      count = count /16;
+      if(count !=2){
+        exit(1);
+      }
     }
 
 

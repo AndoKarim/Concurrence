@@ -25,13 +25,13 @@ void Character::print(){
 	position.print();
 }
 
-int Character::getWidth(){
-  return width;
-}
-
-int Character::getHeight(){
-  return height;
-}
+// int Character::getWidth(){
+//   return width;
+// }
+//
+// int Character::getHeight(){
+//   return height;
+// }
 
 void Character::move(Point p){
   position = p;

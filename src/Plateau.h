@@ -27,7 +27,7 @@ class Plateau{
 
   public :
     Plateau();
-    void setCase(int a, int b);
+    void setCase(int a, int b,int value);
     int getCase(int a, int b);
     void addWall();
     void printWall();
@@ -40,6 +40,9 @@ class Plateau{
     int getOpenHeigthWall1();
     int getOpenHeigthWall2();
     int getWidthLastWall();
+    void movePlayer(int x, int y, int new_x, int new_y);
+    void printAllPlayersCases();
+    void removePlayer(int x, int y);
 
 
 
