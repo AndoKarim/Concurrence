@@ -10,6 +10,9 @@ private :
     bool needMeasures;
     Plateau plateau;
     vector<Character> listPlayers;
+    float measuresTab[3];
+    long maxResident;
+    time_t time;
 
     void createPlayers();
 
