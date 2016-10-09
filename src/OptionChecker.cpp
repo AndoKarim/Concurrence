@@ -70,3 +70,10 @@ int OptionChecker::getnbPeople() {
 int OptionChecker::getnbThread() {
   return nbThread;
 }
+
+
+bool OptionChecker::getMeasures() {
+  if(measures==0)
+    return false;
+  return true;
+}
