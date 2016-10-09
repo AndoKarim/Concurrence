@@ -27,3 +27,10 @@ private :
     void avancer(int i,Character& p);
     void removePlayer(int i, Character& c);
 };
+
+struct thread_Struct
+{
+	Motor* m;
+	Character c;
+  int index;
+};

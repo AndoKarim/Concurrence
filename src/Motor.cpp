@@ -18,8 +18,6 @@ void *moveAll(void *t_data){
     Motor* m=(Motor*) t_data;
     while(!m->gameFinished()){
       cout << "not Finish"<< endl;
-      int nb = m->getListPlayers().size();
-      int i = 0;
 
       for(int i=0;i<m->getListPlayers().size();i++){
         m->avancer(i,m->getListPlayers().at(i));
@@ -38,6 +36,107 @@ void *moveAll(void *t_data){
 
 }
 
+void *moveNO(void *t_data){
+  cout << "MoveNO" <<endl;
+  if (t_data != NULL){
+    Motor* m=(Motor*) t_data;
+    while(!m->gameFinished()){
+      for(int i=0;i<m->getListPlayers().size();i++){
+        Character p = m->getListPlayers()[i];
+        if(p.getX() < 256 && p.getY() < 64){
+          cout << "testNO" << endl;
+          if(p.getX() <=0 && p.getY()>=60){
+            m->removePlayer(i,p);
+          }else{
+            m->avancer(i,p);
+          }
+		    }
+      }
+    }
+  }
+  else{
+    cerr << "error in thread" << endl;
+  }
+}
+
+void *moveNE(void *t_data){
+  cout << "MoveNE" <<endl;
+  if (t_data != NULL){
+    Motor* m=(Motor*) t_data;
+    while(!m->gameFinished()){
+      cout << "testNE" << endl;
+      for(int i=0;i<m->getListPlayers().size();i++){
+        Character p = m->getListPlayers()[i];
+        if(p.getX() >= 255 && p.getY() < 64){
+            m->avancer(i,p);
+        }
+		  }
+    }
+  }
+  else{
+    cerr << "error in thread" << endl;
+  }
+}
+
+void *moveSO(void *t_data){
+  cout << "MoveSO" <<endl;
+  if (t_data != NULL){
+    Motor* m=(Motor*) t_data;
+    while(!m->gameFinished()){
+      cout << "test MoveSO" <<endl;
+      for(int i=0;i<m->getListPlayers().size();i++){
+        Character p = m->getListPlayers()[i];
+        if(p.getX() < 256 && p.getY() > 63){
+          if(p.getX() <=0 && p.getY()<=67){
+            m->removePlayer(i,p);
+          }else{
+            m->avancer(i,p);
+          }
+		    }
+      }
+    }
+  }
+  else{
+    cerr << "error in thread" << endl;
+  }
+}
+
+void *moveSE(void *t_data){
+  cout << "MoveSE" <<endl;
+  if (t_data != NULL){
+    Motor* m=(Motor*) t_data;
+    while(!m->gameFinished()){
+      cout << "test MoveSE" <<endl;
+      for(int i=0;i<m->getListPlayers().size();i++){
+        Character p = m->getListPlayers()[i];
+        if(p.getX() >= 255 && p.getY() > 63){
+          m->avancer(i,p);
+        }
+      }
+    }
+  }
+  else{
+    cerr << "error in thread" << endl;
+  }
+}
+
+void *movePerson(void *t_data){
+  cout << "movePerson" <<endl;
+  if (t_data != NULL)
+  {
+    thread_Struct* data =(struct thread_Struct*) t_data;
+    Motor* m(data->m);
+    Character c(data->c);
+    int index(data->index);
+    while(!(c.getY() >= 60  && c.getY() <= 67 && c.getX() == 0)){
+      m->avancer(index,c);
+    }
+    if(c.getX() <=0 && c.getY()<=67){
+      m->removePlayer(index,c);
+    }
+  }
+}
+
 
 void Motor::run(){
 
@@ -52,10 +151,10 @@ void Motor::run(){
     pthread_t t1;
     pthread_t t2;
     pthread_t t3;
-    pthread_create(&t0, NULL, moveAll , this); //s'occupe de la partie nord ouest
-    pthread_create(&t1, NULL, moveAll , this); //s'occupe de la partie nord est
-    pthread_create(&t2, NULL, moveAll , this); //s'occupe de la partie sud ouest
-    pthread_create(&t3, NULL, moveAll , this); //s'occupe de la partie sud est
+    pthread_create(&t0, NULL, moveNO , this); //s'occupe de la partie nord ouest
+    pthread_create(&t1, NULL, moveNE , this); //s'occupe de la partie nord est
+    pthread_create(&t2, NULL, moveSO , this); //s'occupe de la partie sud ouest
+    pthread_create(&t3, NULL, moveSE , this); //s'occupe de la partie sud est
     pthread_join(t0, NULL);
     pthread_join(t1, NULL);
     pthread_join(t2, NULL);
@@ -63,7 +162,21 @@ void Motor::run(){
   }
 
   if(nbThreads == 2){
-
+    Character c(0,0); //Just to init struct
+    struct thread_Struct data={this,c,0};
+    vector<pthread_t> allThreads;
+    for(int i = 0;i < getListPlayers().size(); i++){
+      pthread_t tmp;
+      data.m=this;
+      data.c=getListPlayers()[i];
+      data.index = i;
+      pthread_create(&tmp, NULL, movePerson,&data);
+      allThreads.push_back(tmp);
+    }
+    for(int i = 0; i<allThreads.size(); i++){
+      //cin.get();
+      pthread_join(allThreads[i],NULL);
+    }
   }
 
 }

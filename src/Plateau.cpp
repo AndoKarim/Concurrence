@@ -113,13 +113,17 @@ using namespace std;
     }
 
     void Plateau::printAllPlayersCases(){
+      int count = 0;
       for(int i = 0; i < HEIGHT; i++){
           for(int j = 0; j < WIDTH ; j++){
               if(grille[i][j]==2){
                   printf("IL Y A UNE PERSONNE EN %d, %d\n", j,i );
+                  count ++;
               }
           }
       }
+      cout << count/16 << endl;
+
     }
 
 
