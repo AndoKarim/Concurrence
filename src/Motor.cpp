@@ -128,14 +128,14 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs){
         getrusage(RUSAGE_SELF,&r_usage);
         maxResident = maxResident + r_usage.ru_maxrss;
 
-        printf("Memory usage = %ld\n",maxResident);
-        printf("Memory usage = %ld\n",r_usage.ru_maxrss);
+        //printf("Memory usage = %ld\n",maxResident);
+        //printf("Memory usage = %ld\n",r_usage.ru_maxrss);
         //printf("AVEC TIME ON OBTIENT = %ld\n",(t2 - t1));
-        printf ("Temps d'execution pour %d---> %f.\n\n", i+1, measuresTab[i-1]);
+        //printf ("Temps d'execution pour %d---> %f.\n\n", i+1, measuresTab[i-1]);
 
       }
       else{
-        printf ("Temps d'execution pour %d---> %f.\n\n", i+1, ((float)(clock() - start_t))/CLOCKS_PER_SEC);
+        //printf ("Temps d'execution pour %d---> %f.\n\n", i+1, ((float)(clock() - start_t))/CLOCKS_PER_SEC);
       }
 
 
@@ -167,7 +167,7 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs){
       moyenne = moyenne + measuresTab[i];
       printf("%f\n", measuresTab[i]);
     }
-    printf("TOTAL DES TEMPS---->%f\n", moyenne);
+    //printf("TOTAL DES TEMPS---->%f\n", moyenne);
     moyenne = moyenne / 3;
     maxResident = maxResident / 3;
 
