@@ -115,7 +115,7 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs){
       }
 
       this->run();
-      for(int j=0; j< 100000000; j++){}
+      //for(int j=0; j< 100000000; j++){}
 
       if(i!=0 && i!=4){
         end_t = clock ();
