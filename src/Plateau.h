@@ -40,7 +40,7 @@ class Plateau{
     int getOpenHeigthWall1();
     int getOpenHeigthWall2();
     int getWidthLastWall();
-    void movePlayer(int x, int y, int new_x, int new_y);
+    bool movePlayer(int x, int y, int new_x, int new_y);
     void printAllPlayersCases();
     void removePlayer(int x, int y);
 

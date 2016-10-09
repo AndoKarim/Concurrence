@@ -64,7 +64,7 @@ using namespace std;
 
 	    for(int pos_x = 0; pos_x < 4; pos_x++){
 		      for(int pos_y = 0; pos_y < 4; pos_y++){
-			         if(this->grille[y+pos_y][x+pos_x] == 1 || this->grille[y=pos_y][x+pos_x] == 2 ){
+			         if(this->grille[y+pos_y][x+pos_x] == 1 || this->grille[y+pos_y][x+pos_x] == 2 ){
                  cerr << "impossible to add at this position" << endl;
 					       return false;
               }
@@ -73,11 +73,16 @@ using namespace std;
       return true;
     }
 
-    void Plateau::movePlayer(int x, int y, int new_x, int new_y){
-      //if(checkCase(new_x,new_y) && x > 0 && y > 0 && x + 3 < 511 && y + 3 < 127){
+    bool Plateau::movePlayer(int x, int y, int new_x, int new_y){
+      if(x > 0 && y > 0 && x + 3 < 511 && y + 3 < 127){
         removePlayer(x,y);
-        addPlayer(new_x,new_y);
-      //}else { cout<< "impo"<< endl;}
+        if(!addPlayer(new_x,new_y)){
+          addPlayer(x,y);
+          cout<< "impossible to move player"<< endl;
+          return false;
+        }
+          return true;
+      }
     }
 
     bool Plateau::addPlayer(int x, int y){
@@ -108,20 +113,12 @@ using namespace std;
     }
 
     void Plateau::printAllPlayersCases(){
-      //TEST
-      int count = 0;
       for(int i = 0; i < HEIGHT; i++){
           for(int j = 0; j < WIDTH ; j++){
               if(grille[i][j]==2){
                   printf("IL Y A UNE PERSONNE EN %d, %d\n", j,i );
-                  count++;
               }
           }
-      }
-      //TEST
-      count = count /16;
-      if(count !=2){
-        exit(1);
       }
     }
 

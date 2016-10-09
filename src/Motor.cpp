@@ -25,36 +25,12 @@ void *moveAll(void *t_data){
         m->avancer(i,m->getListPlayers().at(i));
       }
       m->printAllPlayers();
-      cin.get();
-
       for(int i = 0;i<m->getListPlayers().size();i++){
         Character p = m->getListPlayers()[i];
         if(p.getX() <=0 && p.getY()>=60 && p.getY()<=67){
-          cout << "test" << endl;
-          m->printAllPlayers();
           m->removePlayer(i,p);
-          m->printAllPlayers();
-          exit(1);
         }
       }
-      // while(i<nb){
-      //   m->avancer(i,m->getListPlayers().at(i));
-      //
-      //   nb= m->getListPlayers().size();
-      //   i++;
-      // }
-      // for(int i=0;i<(m->getListPlayers()).size();i++){
-      //       Character c = m->getListPlayers()[i];
-      // 			m->avancer(i,c);
-      //       cout<< "in ";
-      //       c.print();
-      //       //m->setPlayer(i,c);
-      //
-      //
-      // }
-    /* Fct qui doit faire bouger tous les joueurs pendant toute la durée du jeu lorsque l'on a l'option -t0
-    Tant que le jeu n'est pas fini, on prend la liste des joueurs et on fait avancer chacun d'eux
-    */
     }
   }else{
     cerr << "error in thread" << endl;
@@ -171,8 +147,6 @@ void Motor::setPlayer(int i,Character c){
 }
 
 void Motor::avancer(int index,Character& p){
-  // this->listPlayers.erase(this->listPlayers.begin() + index);
-  // return true;
   cout << "before" << endl;
   p.print();
   Point pt = changePosition(p.getX(),p.getY());
@@ -180,50 +154,12 @@ void Motor::avancer(int index,Character& p){
   pt.print();
   cout << endl;
   cout << "after" << endl;
-  this->plateau.movePlayer(p.getX(),p.getY(),pt.getX(),pt.getY());
-  p.move(pt);
+  if(this->plateau.movePlayer(p.getX(),p.getY(),pt.getX(),pt.getY())){
+    p.move(pt);
+  }
   p.print();
   listPlayers[index] = p;
   this->plateau.printAllPlayersCases();
-
-// //Check here
-//   if(p.getX() <=0 && p.getY()>=60 && p.getY()<=67){
-//     cout << "Joueur arrive"<< endl;
-//     printAllPlayers();
-//     cout << "--------------------"<<endl;
-//
-//     /*for(int i = 0; i < this->listPlayers.size(); i++){
-//       this->listPlayers.at(i).print();
-// 		    if(this->listPlayers.at(i).getX() == p.getX() && this->listPlayers.at(i).getY() == p.getY()){
-//             cout << "X: " << listPlayers.at(i).getX() << " Y: " << listPlayers.at(i).getY();
-//             cout << "PX: " << p.getX() << " PY: " << p.getY() << endl;*/
-// 			       this->listPlayers.erase(this->listPlayers.begin() + index);
-//              this->plateau.removePlayer(p.getX(),p.getY());
-//
-//             // this->plateau.setCase(p.getX(),p.getY(),0);
-//              cout << "arr" <<endl;
-//              //this->plateau.printAllPlayersCases();
-//              for(int i= 0; i< getListPlayers().size();i++){
-//                getListPlayers()[i].print();
-//              }
-//              return true;
-//              //exit(1);
-// 			          /*break;
-//
-// 		    }
-//
-// 	  }*/
-    // cout << "" <<endl;
-    // cout << "----------=----------"<<endl;
-    // //printAllPlayers();
-    // for(int i= 0; i< getListPlayers().size();i++){
-    //   getListPlayers()[i].print();
-    // }
-    // exit(1);
-
-  //}
-
-  cout << "ch " << this->listPlayers.size() << endl;
 }
 
 Point Motor::changePosition(int x, int y){
