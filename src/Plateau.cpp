@@ -84,7 +84,7 @@ using namespace std;
         removePlayer(x,y);
         if(!addPlayer(new_x,new_y)){
           addPlayer(x,y);
-          cout<< "impossible to move player"<< endl;
+          //cout<< "impossible to move player"<< endl;
           return false;
         }
           return true;

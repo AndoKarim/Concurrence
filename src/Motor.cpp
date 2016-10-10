@@ -18,7 +18,7 @@
 using namespace std;
 
 void *moveAll(void *t_data){
-  cout << "MoveAll" <<endl;
+  //cout << "MoveAll" <<endl;
 
   if (t_data != NULL){
     Motor* m=(Motor*) t_data;
@@ -43,14 +43,14 @@ void *moveAll(void *t_data){
 }
 
 void *moveNO(void *t_data){
-  cout << "MoveNO" <<endl;
+  //cout << "MoveNO" <<endl;
   if (t_data != NULL){
     Motor* m=(Motor*) t_data;
     while(!m->gameFinished()){
       for(int i=0;i<m->getListPlayers().size();i++){
         Character p = m->getListPlayers()[i];
         if(p.getX() < 256 && p.getY() < 64){
-          cout << "testNO" << endl;
+          //cout << "testNO" << endl;
           if(p.getX() <=0 && p.getY()>=60){
             m->removePlayer(i,p);
           }else{
@@ -66,11 +66,11 @@ void *moveNO(void *t_data){
 }
 
 void *moveNE(void *t_data){
-  cout << "MoveNE" <<endl;
+  //cout << "MoveNE" <<endl;
   if (t_data != NULL){
     Motor* m=(Motor*) t_data;
     while(!m->gameFinished()){
-      cout << "testNE" << endl;
+      //cout << "testNE" << endl;
       for(int i=0;i<m->getListPlayers().size();i++){
         Character p = m->getListPlayers()[i];
         if(p.getX() >= 255 && p.getY() < 64){
@@ -85,11 +85,11 @@ void *moveNE(void *t_data){
 }
 
 void *moveSO(void *t_data){
-  cout << "MoveSO" <<endl;
+  //cout << "MoveSO" <<endl;
   if (t_data != NULL){
     Motor* m=(Motor*) t_data;
     while(!m->gameFinished()){
-      cout << "test MoveSO" <<endl;
+      //cout << "test MoveSO" <<endl;
       for(int i=0;i<m->getListPlayers().size();i++){
         Character p = m->getListPlayers()[i];
         if(p.getX() < 256 && p.getY() > 63){
@@ -108,11 +108,11 @@ void *moveSO(void *t_data){
 }
 
 void *moveSE(void *t_data){
-  cout << "MoveSE" <<endl;
+  //cout << "MoveSE" <<endl;
   if (t_data != NULL){
     Motor* m=(Motor*) t_data;
     while(!m->gameFinished()){
-      cout << "test MoveSE" <<endl;
+      //cout << "test MoveSE" <<endl;
       for(int i=0;i<m->getListPlayers().size();i++){
         Character p = m->getListPlayers()[i];
         if(p.getX() >= 255 && p.getY() > 63){
@@ -283,6 +283,7 @@ void Motor::run(){
 }
 
 void Motor::createPlayers(){
+  this->removeAllPlayers();
   for(int i = 0; i<this->nbPlayers;i++){
     int randX = rand()% 512;
     int randY = rand()% 128;
