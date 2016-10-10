@@ -1,3 +1,9 @@
+/*****************************************************************
+ * Motor.cpp
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
+
 #include <iostream>
 #include <string>
 
@@ -146,32 +152,6 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs){
   needMeasures = nbMs;
   plateau = Plateau();
   this->createPlayers();
-  /*this->changePosition(508,0);
-  this->changePosition(508,124);
-  this->changePosition(508, 25);
-  this->changePosition(508, 63);
-  this->changePosition(508, 110);
-  this->changePosition(128,0);
-  this->changePosition(128,6);
-  this->changePosition(128,55);
-  this->changePosition(128,56);
-  this->changePosition(128,124);
-  this->changePosition(128,90);
-  this->changePosition(127,56);
-  this->changePosition(127,59);
-  this->changePosition(127,61);
-  this->changePosition(127,63);
-  this->changePosition(127,68);
-  this->changePosition(128,69);
-  this->changePosition(128,70);
-  this->changePosition(16,0);
-  this->changePosition(16,25);
-  this->changePosition(16,59);
-  this->changePosition(16,60);
-  this->changePosition(16,64);
-  this->changePosition(16,65);
-  this->changePosition(16,80);
-  this->changePosition(16,124);*/
   if(needMeasures){
 
    for(int i=0; i<5; i++){
@@ -187,7 +167,6 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs){
      }
 
      this->run();
-     for(int j=0; j< 100000000; j++){}
 
      if(i!=0 && i!=4){
        end_t = clock ();

@@ -1,3 +1,9 @@
+/*****************************************************************
+ * Character.cpp
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
+
 #include "Character.h"
 #include <string.h>
 

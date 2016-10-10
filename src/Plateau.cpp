@@ -1,3 +1,9 @@
+/*****************************************************************
+ * Plateau.cpp
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
+
 #include <iostream>
 #include <string>
 

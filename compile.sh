@@ -1,6 +1,8 @@
 #!/bin/bash
-
-#Equipe 22: Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+###############################################################
+# Team 22
+# Authors: Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+###############################################################
 rm -rf bin
 mkdir bin
 cd src

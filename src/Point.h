@@ -1,3 +1,9 @@
+/*****************************************************************
+ * Point.h
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
+
 class Point {
   private:
     int x;

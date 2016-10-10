@@ -1,3 +1,9 @@
+/*****************************************************************
+ * Main.cpp
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
+
 #include "Motor.h"
 #include "OptionChecker.h"
 #include <iostream>

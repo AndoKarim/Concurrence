@@ -1,3 +1,8 @@
+/*****************************************************************
+ * Character.h
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
 #include "Point.h"
 class Character {
   private:

@@ -1,3 +1,9 @@
+/*****************************************************************
+ * Point.cpp
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
+
 #include "Point.h"
 #include <iostream>
 

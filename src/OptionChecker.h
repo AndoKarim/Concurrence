@@ -1,3 +1,9 @@
+/*****************************************************************
+ * OptionChecker.h
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
+
 #include <unistd.h>
 #include <stdlib.h>
 

@@ -1,3 +1,9 @@
+/*****************************************************************
+ * Motor.h
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
+
 using namespace std;
 #include "Character.h"
 #include "Plateau.h"
