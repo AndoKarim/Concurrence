@@ -22,7 +22,7 @@ private :
     vector<Character> listPlayers;
     float measuresTab[5];
     long maxResident;
-    time_t time;
+    double timeMeasures[5];
 
     void createPlayers();
 
