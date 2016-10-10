@@ -151,10 +151,10 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs){
   nbThreads = nbTd;
   needMeasures = nbMs;
   plateau = Plateau();
-  this->createPlayers();
   if(needMeasures){
 
    for(int i=0; i<5; i++){
+    this->createPlayers();
      struct rusage r_usage;
      clock_t start_t;
      clock_t end_t;
@@ -188,21 +188,6 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs){
      else{
        printf ("Temps d'execution pour %d---> %f.\n\n", i+1, ((float)(clock() - start_t))/CLOCKS_PER_SEC);
      }
-
-
-     /*clock_t start_t;
-     start_t = clock();
-     struct rusage r_usage;
-     this->run();
-     for(int i=0; i< 100000000; i++){}
-     getrusage(RUSAGE_SELF,&r_usage);
-     printf("Memory usage = %ld\n",r_usage.ru_maxrss);
-     if(i!=0 && i!=4){
-       measuresTab[i] = clock() - start_t;
-       maxResident = maxResident + r_usage.ru_maxrss;
-     }
-     printf("maxResident--->%ld\n", maxResident);
-     printf ("Temps d'execution pour %d---> %f.\n\n", i, ((float)measuresTab[i])/CLOCKS_PER_SEC);*/
    }
 
    float moyenne;
@@ -220,7 +205,8 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs){
    //printf("Le temps moyen de calcul pour le programme est de %lf\n", moyenne);
  }
  else{
-   this->run();
+  this->createPlayers();
+  this->run();
  }
 }
 
