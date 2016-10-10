@@ -3,6 +3,8 @@
  * Team 22
  * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
  ****************************************************************/
+#ifndef MOTOR_H
+#define MOTOR_H
 
 using namespace std;
 #include "Character.h"
@@ -45,3 +47,5 @@ struct thread_Struct
 	Character c;
   int index;
 };
+
+#endif

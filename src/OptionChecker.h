@@ -4,6 +4,9 @@
  * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
  ****************************************************************/
 
+ #ifndef OPTIONCHECKER_H
+ #define OPTIONCHECKER_H
+
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -27,3 +30,5 @@ public:
     int getnbThread();
     bool getMeasures();
 };
+
+#endif

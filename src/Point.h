@@ -3,6 +3,8 @@
  * Team 22
  * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
  ****************************************************************/
+ #ifndef POINT_H
+ #define POINT_H
 
 class Point {
   private:
@@ -16,3 +18,5 @@ class Point {
     int getX();
     int getY();
 };
+
+#endif

@@ -3,7 +3,9 @@
  * Team 22
  * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
  ****************************************************************/
-#include "Point.h"
+#ifndef CHARACTER_H
+#define CHARACTER_H
+
 class Character {
   private:
     //const int width = 4;
@@ -21,3 +23,4 @@ class Character {
     //int getWidth();
     //int getHeight();
 };
+#endif

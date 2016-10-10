@@ -3,6 +3,8 @@
  * Team 22
  * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
  ****************************************************************/
+ #ifndef PLATEAU_H
+ #define PLATEAU_H
 
 #include <vector>
 #include <stdio.h>
@@ -56,3 +58,4 @@ class Plateau{
     Plateau& operator=(const Plateau&);
 
 };
+#endif
