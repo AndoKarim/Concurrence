@@ -154,53 +154,59 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs){
   if(needMeasures){
 
    for(int i=0; i<5; i++){
-    this->createPlayers();
-     struct rusage r_usage;
+     this->createPlayers();
+     //struct rusage r_usage;
      clock_t start_t;
      clock_t end_t;
-     //time_t t1;
-     //time_t t2;
 
-     if(i!=0 && i!=4){
-       //t1 = time(0);
-       start_t = clock();
-     }
+
+     start_t = clock();
 
      this->run();
 
-     if(i!=0 && i!=4){
-       end_t = clock ();
-       //t2 = time(0);
+
+     end_t = clock ();
+     //t2 = time(0);
 
 
-       measuresTab[i-1] = ((float)(end_t - start_t))/CLOCKS_PER_SEC;
-       //time = time + (t2 - t1);
+     measuresTab[i] = ((float)(end_t - start_t))/CLOCKS_PER_SEC;
+     //time = time + (t2 - t1);
 
-       getrusage(RUSAGE_SELF,&r_usage);
-       maxResident = maxResident + r_usage.ru_maxrss;
+     //getrusage(RUSAGE_SELF,&r_usage);
+     //maxResident = maxResident + r_usage.ru_maxrss;
 
-       printf("Memory usage = %ld\n",maxResident);
-       printf("Memory usage = %ld\n",r_usage.ru_maxrss);
-       //printf("AVEC TIME ON OBTIENT = %ld\n",(t2 - t1));
-       printf ("Temps d'execution pour %d---> %f.\n\n", i+1, measuresTab[i-1]);
-
-     }
-     else{
-       printf ("Temps d'execution pour %d---> %f.\n\n", i+1, ((float)(clock() - start_t))/CLOCKS_PER_SEC);
-     }
+     //printf("Memory usage = %ld\n",maxResident);
+     //printf("Memory usage = %ld\n",r_usage.ru_maxrss);
+     //printf("AVEC TIME ON OBTIENT = %ld\n",(t2 - t1));
+     printf ("Temps d'execution pour %d---> %f.\n\n", i+1, measuresTab[i]);
    }
 
+   float max = measuresTab[0];
+   float min = measuresTab[0];
    float moyenne;
+   int indiceMax = 0;
+   int indiceMin = 0;
 
-   for(int i=0; i<3; i++){
-     moyenne = moyenne + measuresTab[i];
-     printf("%f\n", measuresTab[i]);
+   for(int i=1; i<5; i++){
+      if(max < measuresTab[i])
+        indiceMax = i;
+      if(min > measuresTab[i])
+        indiceMin = i;
+     //moyenne = moyenne + measuresTab[i];
+     //printf("%f\n", measuresTab[i]);
    }
+
+   for(int i=0; i<5; i++){
+      if(i!=indiceMax && i!=indiceMin)
+        moyenne = moyenne + measuresTab[i];
+   }
+
    printf("TOTAL DES TEMPS---->%f\n", moyenne);
    moyenne = moyenne / 3;
-   maxResident = maxResident / 3;
+   //maxResident = maxResident / 3;
 
-   printf ("Temps d'execution moyen ---> %f et une empreinte maximale moyenne de %ld.\n", moyenne, maxResident);
+   //printf ("Temps d'execution moyen ---> %f et une empreinte maximale moyenne de %ld.\n", moyenne, maxResident);
+   printf ("Temps d'execution moyen ---> %f.\n", moyenne);
 
    //printf("Le temps moyen de calcul pour le programme est de %lf\n", moyenne);
  }
