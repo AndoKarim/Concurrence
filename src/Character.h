@@ -6,6 +6,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include "Point.h"
 class Character {
   private:
     //const int width = 4;
