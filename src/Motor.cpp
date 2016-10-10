@@ -23,12 +23,12 @@ void *moveAll(void *t_data){
   if (t_data != NULL){
     Motor* m=(Motor*) t_data;
     while(!m->gameFinished()){
-      cout << "not Finish"<< endl;
+      //cout << "not Finish"<< endl;
 
       for(int i=0;i<m->getListPlayers().size();i++){
         m->avancer(i,m->getListPlayers().at(i));
       }
-      m->printAllPlayers();
+      //m->printAllPlayers();
       for(int i = 0;i<m->getListPlayers().size();i++){
         Character p = m->getListPlayers()[i];
         if(p.getX() <=0 && p.getY()>=60 && p.getY()<=67){
@@ -286,11 +286,11 @@ void Motor::createPlayers(){
   for(int i = 0; i<this->nbPlayers;i++){
     int randX = rand()% 512;
     int randY = rand()% 128;
-    cout << "X : " << randX << " Y : " << randY << endl;
+    //cout << "X : " << randX << " Y : " << randY << endl;
     while(!plateau.addPlayer(randX,randY)){
       randX = rand()% 512;
       randY = rand()% 128;
-      cout << "X : " << randX << " Y : " << randY << endl;
+      //cout << "X : " << randX << " Y : " << randY << endl;
     }
     Character c(randX, randY);
     listPlayers.push_back(c);
@@ -309,7 +309,7 @@ void Motor::printAllPlayers(){
 }
 
 bool Motor::gameFinished(){
-  cout << "nb" <<this->listPlayers.size() << endl;
+  //cout << "nb" <<this->listPlayers.size() << endl;
   return this->listPlayers.size() == 0;
 }
 
@@ -326,19 +326,19 @@ void Motor::setPlayer(int i,Character c){
 }
 
 void Motor::avancer(int index,Character& p){
-  cout << "before" << endl;
-  p.print();
+  //cout << "before" << endl;
+  //p.print();
   Point pt = changePosition(p.getX(),p.getY());
-  cout << "Nico ";
-  pt.print();
-  cout << "after" << endl;
+  //cout << "Nico ";
+  //pt.print();
+  //cout << "after" << endl;
 
   if(this->plateau.movePlayer(p.getX(),p.getY(),pt.getX(),pt.getY())){
     p.move(pt);
   }
-  p.print();
+  //p.print();
   listPlayers[index] = p;
-  this->plateau.printAllPlayersCases();
+  //this->plateau.printAllPlayersCases();
 }
 
 Point Motor::changePosition(int x, int y){

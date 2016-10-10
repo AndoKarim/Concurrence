@@ -71,7 +71,7 @@ using namespace std;
 	    for(int pos_x = 0; pos_x < 4; pos_x++){
 		      for(int pos_y = 0; pos_y < 4; pos_y++){
 			         if(this->grille[y+pos_y][x+pos_x] == 1 || this->grille[y+pos_y][x+pos_x] == 2 ){
-                 cerr << "impossible to add at this position" << endl;
+                 //cerr << "impossible to add at this position" << endl;
 					       return false;
               }
 		      }
@@ -101,7 +101,7 @@ using namespace std;
 		         this->grille[y+delta_y][x+delta_x] = 2;
 		      }
 	    }
-      cout << "added successfully" << endl;
+      //cout << "added successfully" << endl;
 	    return true;
     }
 
