@@ -25,6 +25,11 @@ bool OptionChecker::checkPeople(int people) {
   return (people >= 0 && people < 10);
 }
 
+bool OptionChecker::checkPhase(int phase) {
+  //To be changed when 3rd phase is on track
+  return phase >0 && phase <3 ;
+}
+
 void OptionChecker::parameterFiller(int nbArgs, char *parameters[]) {
   extern char *optarg;
   int c;
@@ -41,6 +46,8 @@ void OptionChecker::parameterFiller(int nbArgs, char *parameters[]) {
       case 'm':
         measures = 1;
         break;
+      case 'e':
+        phaseArg = atoi(optarg);
     }
   }
 }
@@ -55,6 +62,11 @@ void OptionChecker::parameterChecker() {
     exit(1);
   }
 
+  if(!phaseArg){
+    cerr << "No Phase parameter" << endl;
+    exit(1);
+  }
+
   if (peopleArg) {
     if (threadArg) {
       if (!checkThread(nbThread)) {
@@ -63,6 +75,10 @@ void OptionChecker::parameterChecker() {
       }
       if (!checkPeople(nbPeople)) {
         cerr << "Number of people invalid" << endl;
+        exit(1);
+      }
+      if(!checkPhase(phaseArg)){
+        cerr << "Parameter of phase invalid" << endl;
         exit(1);
       }
     }
@@ -82,4 +98,8 @@ bool OptionChecker::getMeasures() {
   if(measures==0)
     return false;
   return true;
+}
+
+int OptionChecker::getnbPhase(){
+  return phaseArg;
 }

@@ -12,8 +12,9 @@
 
 using namespace std;
 
-void initialisation(int nbPlayers, int nbThreads, bool needMeasures) {
-  Motor m = Motor(nbPlayers, nbThreads, needMeasures);
+void initialisation(int nbPlayers, int nbThreads, bool needMeasures, int phase) {
+  //TODO: Add the arg phase on the motor constructor
+  Motor m = Motor(nbPlayers, nbThreads, needMeasures,phase);
 }
 
 
@@ -22,9 +23,10 @@ int main(int argc, char *argv[]) {
   int nbPlayers = (int) pow(2, a.getnbPeople());
   int nbThreads = a.getnbThread();
   bool needMeasures = a.getMeasures();
+  int nbPhase = a.getnbPhase();
 
   cout << "Nb People : " << nbPlayers << endl;
   cout << "Nb Thread : " << nbThreads << endl;
 
-  initialisation(nbPlayers, nbThreads, needMeasures);
+  initialisation(nbPlayers, nbThreads, needMeasures, nbPhase);
 }
