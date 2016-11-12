@@ -10,7 +10,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#define PARAM_MASK "p:t:m"
+#define PARAM_MASK "p:t:me:"
 
 
 class OptionChecker {

@@ -10,11 +10,11 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <ctime>
-#include <bits/semaphore.h>
+#include <semaphore.h>
 
 
 using namespace std;
-typedef vector<struct_Mutex> Row; // One row of the matrix
+typedef vector<struct struct_Mutex> Row; // One row of the matrix
 typedef vector<Row> Matrix; // Matrix: a vector of rows
 
 class Plateau{
@@ -36,7 +36,7 @@ class Plateau{
 
   public :
     Plateau();
-    struct_Mutex getCase(int a, int b);
+    struct struct_Mutex getCase(int a, int b);
     void addWall();
     void printWall();
     bool addPlayer(int x, int y);

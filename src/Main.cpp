@@ -14,7 +14,7 @@ using namespace std;
 
 void initialisation(int nbPlayers, int nbThreads, bool needMeasures, int phase) {
   //TODO: Add the arg phase on the motor constructor
-  Motor m = Motor(nbPlayers, nbThreads, needMeasures,phase);
+  Motor m = Motor(nbPlayers, nbThreads, needMeasures);
 }
 
 

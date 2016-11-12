@@ -30,7 +30,7 @@ void Plateau::initialize() {
   }
 }
 
-struct_Mutex Plateau::getCase(int x, int y) {
+struct struct_Mutex Plateau::getCase(int x, int y) {
   return grille[y][x];
 }
 
@@ -39,11 +39,11 @@ void Plateau::addWall() {
   for (int i = 0; i < HEIGHT; i++) {
     for (int j = 0; j < WIDTHWALL; j++) {
       if (i < (HEIGHT - WALLOPENINGHEIGHT1) / 2 || i >= (HEIGHT + WALLOPENINGHEIGHT1) / 2)
-        getCase(j, i).isOccupied = 1;
+        grille[i][j].isOccupied = 1;
     }
     for (int j = 0 + WALLDISTANCE; j < WIDTHWALL + WALLDISTANCE; j++) {
       if (i < (HEIGHT - WALLOPENINGHEIGHT2) / 2 || i >= (HEIGHT + WALLOPENINGHEIGHT2) / 2)
-        getCase(j, i).isOccupied = 1;
+        grille[i][j].isOccupied = 1;
     }
   }
 }
