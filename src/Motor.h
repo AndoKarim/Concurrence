@@ -39,13 +39,17 @@ private :
     vector<Character> getListPlayers();
     void avancer(int i,Character& p);
     void removePlayer(int i, Character& c);
+
+    int nbP();
+
+    void test();
 };
 
 struct thread_Struct
 {
 	Motor* m;
 	Character c;
-  int index;
+    int index;
 };
 
 #endif

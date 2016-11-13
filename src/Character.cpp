@@ -13,10 +13,12 @@ Character::Character(){}
 
 Character::Character(int x, int y){
   position = Point(x,y);
+  finished = false;
 }
 
 Character::Character(Point p){
   position = p;
+  finished = false;
 }
 
 int Character::getX(){
@@ -40,4 +42,12 @@ void Character::print(){
 
 void Character::move(Point p){
   position = p;
+}
+
+void Character::finish(){
+  finished = true;
+}
+
+bool Character::hasFinished() {
+    return  finished;
 }

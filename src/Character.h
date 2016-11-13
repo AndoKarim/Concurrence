@@ -12,6 +12,7 @@ class Character {
     //const int width = 4;
     //const int height = 4;
     Point position;
+    bool finished;
 
   public:
     Character();
@@ -23,5 +24,7 @@ class Character {
     int getY();
     //int getWidth();
     //int getHeight();
+    void finish();
+    bool hasFinished();
 };
 #endif
