@@ -13,6 +13,10 @@ using namespace std;
 #include <sys/time.h>
 #include <sys/resource.h>
 
+#include <semaphore.h>
+#include <map>
+
+
 class Motor{
 private :
     int nbPlayers;
@@ -20,9 +24,12 @@ private :
     bool needMeasures;
     Plateau plateau;
     vector<Character> listPlayers;
+    int numEtape;
     float measuresTab[5];
     long maxResident;
     double timeMeasures[5];
+
+    map<string,sem_t*>* semaphores;
 
     void createPlayers();
 
@@ -30,6 +37,7 @@ private :
   public :
     Motor(int nbPlayers, int nbthreads);
     Motor(int nbPlayers, int nbthreads, bool needmeasures);
+    Motor(int nbPl, int nbTd, bool nbMs, int numEtap);
     void setPlayer(int i,Character c);
     void printAllPlayers();
     void run();
@@ -39,10 +47,14 @@ private :
     vector<Character> getListPlayers();
     void avancer(int i,Character& p);
     void removePlayer(int i, Character& c);
+	int getNumEtape();
 
     int nbP();
 
     void test();
+
+
+    map<string, sem_t *> *getSemaphores();
 };
 
 struct thread_Struct
@@ -51,5 +63,7 @@ struct thread_Struct
 	Character c;
     int index;
 };
+
+
 
 #endif

@@ -26,5 +26,18 @@ class Character {
     //int getHeight();
     void finish();
     bool hasFinished();
+
+    bool isOnNO();
+    bool isOnNE();
+    bool isOnSE();
+    bool isOnSO();
+
+    bool nearSO();
+
+    bool nearNE();
+
+    bool nearSE();
+
+    bool nearNO();
 };
 #endif

@@ -5,17 +5,11 @@
  ****************************************************************/
 
 #include <iostream>
-#include <string>
-
 #include <vector>
-#include <stdio.h>
-#include <cstdlib>
-#include <ctime>
-#include <pthread.h>
-
 #include "Motor.h"
 
 using namespace std;
+
 
 void *moveAll(void *t_data) {
     //cout << "MoveAll" <<endl;
@@ -23,18 +17,21 @@ void *moveAll(void *t_data) {
     if (t_data != NULL) {
         Motor *m = (Motor *) t_data;
         while (!m->gameFinished()) {
-            //cout << "not Finish"<< endl;
 
             for (int i = 0; i < m->getListPlayers().size(); i++) {
-                m->avancer(i, m->getListPlayers().at(i));
-            }
-            //m->printAllPlayers();
-            for (int i = 0; i < m->getListPlayers().size(); i++) {
                 Character p = m->getListPlayers()[i];
+                m->avancer(i, p);
                 if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 67) {
                     m->removePlayer(i, p);
                 }
             }
+            //m->printAllPlayers();
+            /*for (int i = 0; i < m->getListPlayers().size(); i++) {
+                Character p = m->getListPlayers()[i];
+                if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 67) {
+                    m->removePlayer(i, p);
+                }
+            }*/
         }
     } else {
         cerr << "error in thread" << endl;
@@ -46,22 +43,63 @@ void *moveNO(void *t_data) {
     //cout << "MoveNO" <<endl;
     if (t_data != NULL) {
         Motor *m = (Motor *) t_data;
-        if (m->gameFinished())
-            cout << "NOgameFinished" << endl;
-        while (!m->gameFinished()) {
-            cout << "testNO" << endl;
-            for (int i = 0; i < m->getListPlayers().size(); i++) {
-                Character p = m->getListPlayers()[i];
-                if (p.getX() < 256 && p.getY() < 64 && !p.hasFinished()) {
-                    //cout << "testNO" << endl;
-                    if (p.getX() <= 0 && p.getY() >= 60) {
-                        m->removePlayer(i, p);
-                        cout << "teeeeee" << endl;
-                    } else {
-                        m->avancer(i, p);
+        switch (m->getNumEtape()) {
+            case 1:
+                while (!m->gameFinished()) {
+                    cout << "testNO" << endl;
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if (p.getX() < 256 && p.getY() < 64 && !p.hasFinished()) {
+                            //cout << "testNO" << endl;
+                            if (p.getX() <= 0 && p.getY() >= 60) {
+                                m->removePlayer(i, p);
+                            } else {
+                                m->avancer(i, p);
+                            }
+                        }
                     }
                 }
-            }
+                break;
+            case 2:
+                map<string, sem_t *> *semaphores = m->getSemaphores();
+
+                sem_t *semNO, *semNE, *semSO, *semSE;
+                semNO = semaphores->find("NO")->second;
+                semNE = semaphores->find("NE")->second;
+                semSO = semaphores->find("SO")->second;
+                semSE = semaphores->find("SE")->second;
+
+                while (!m->gameFinished()) {
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if(p.isOnNO() && !p.hasFinished()){
+                            sem_wait(semNO); //Debut Zone critique
+                            sem_t *near= nullptr;
+
+                            if(p.nearSO())
+                                near = semSO;
+                            else if(p.nearNE())
+                                near = semNE;
+                            else if(p.nearSE())
+                                near = semSE;
+                            if(near!= nullptr)
+                                sem_wait(near);
+
+                            if (p.getX() <= 0 && p.getY() >= 60) {
+                                m->removePlayer(i, p);
+                            } else {
+                                m->avancer(i, p);
+                            }
+
+                            if(near!= nullptr)
+                                sem_post(near);
+                            sem_post(semNO); //Fin Zone critique
+
+
+                        }
+                    }
+                }
+                break;
         }
     } else {
         cerr << "error in thread" << endl;
@@ -72,16 +110,54 @@ void *moveNE(void *t_data) {
     //cout << "MoveNE" <<endl;
     if (t_data != NULL) {
         Motor *m = (Motor *) t_data;
-        if (m->gameFinished())
-            cout << "NEgameFinished" << endl;
-        while (!m->gameFinished()) {
-            cout << "testNE" << endl;
-            for (int i = 0; i < m->getListPlayers().size(); i++) {
-                Character p = m->getListPlayers()[i];
-                if (p.getX() >= 255 && p.getY() < 64 && !p.hasFinished()) {
-                    m->avancer(i, p);
+        switch (m->getNumEtape()) {
+            case 1:
+                while (!m->gameFinished()) {
+                    cout << "testNE" << endl;
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if (p.getX() >= 255 && p.getY() < 64 && !p.hasFinished()) {
+                            m->avancer(i, p);
+                        }
+                    }
                 }
-            }
+                break;
+            case 2:
+                map<string, sem_t *> *semaphores = m->getSemaphores();
+
+                sem_t *semNO, *semNE, *semSO, *semSE;
+                semNO = semaphores->find("NO")->second;
+                semNE = semaphores->find("NE")->second;
+                semSO = semaphores->find("SO")->second;
+                semSE = semaphores->find("SE")->second;
+
+                while (!m->gameFinished()) {
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if(p.isOnNE() && !p.hasFinished()){
+                            sem_wait(semNE); //Debut Zone critique
+                            sem_t *near= nullptr;
+
+                            if(p.nearSO())
+                                near = semSO;
+                            else if(p.nearNO())
+                                near = semNO;
+                            else if(p.nearSE())
+                                near = semSE;
+                            if(near!= nullptr)
+                                sem_wait(near);
+
+                            m->avancer(i, p);
+
+                            if(near!= nullptr)
+                                sem_post(near);
+                            sem_post(semNE); //Fin Zone critique
+
+
+                        }
+                    }
+                }
+                break;
         }
     } else {
         cerr << "error in thread" << endl;
@@ -92,20 +168,63 @@ void *moveSO(void *t_data) {
     //cout << "MoveSO" <<endl;
     if (t_data != NULL) {
         Motor *m = (Motor *) t_data;
-        if (m->gameFinished())
-            cout << "SOgameFinished" << endl;
-        while (!m->gameFinished()) {
-            cout << "test MoveSO" << endl;
-            for (int i = 0; i < m->getListPlayers().size(); i++) {
-                Character p = m->getListPlayers()[i];
-                if (p.getX() < 256 && p.getY() > 63 && !p.hasFinished()) {
-                    if (p.getX() <= 0 && p.getY() <= 67) {
-                        m->removePlayer(i, p);
-                    } else {
-                        m->avancer(i, p);
+
+        switch (m->getNumEtape()) {
+            case 1:
+                while (!m->gameFinished()) {
+                    cout << "test MoveSO" << endl;
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if (p.getX() < 256 && p.getY() > 63 && !p.hasFinished()) {
+                            if (p.getX() <= 0 && p.getY() <= 67) {
+                                m->removePlayer(i, p);
+                            } else {
+                                m->avancer(i, p);
+                            }
+                        }
                     }
                 }
-            }
+                break;
+            case 2:
+                map<string, sem_t *> *semaphores = m->getSemaphores();
+
+                sem_t *semNO, *semNE, *semSO, *semSE;
+                semNO = semaphores->find("NO")->second;
+                semNE = semaphores->find("NE")->second;
+                semSO = semaphores->find("SO")->second;
+                semSE = semaphores->find("SE")->second;
+
+                while (!m->gameFinished()) {
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if(p.isOnSO() && !p.hasFinished()){
+                            sem_wait(semSO); //Debut Zone critique
+                            sem_t *near= nullptr;
+
+                            if(p.nearNE())
+                                near = semNE;
+                            else if(p.nearNO())
+                                near = semNO;
+                            else if(p.nearSE())
+                                near = semSE;
+                            if(near!= nullptr)
+                                sem_wait(near);
+
+                            if (p.getX() <= 0 && p.getY() <= 67) {
+                                m->removePlayer(i, p);
+                            } else {
+                                m->avancer(i, p);
+                            }
+
+                            if(near!= nullptr)
+                                sem_post(near);
+                            sem_post(semSO); //Fin Zone critique
+
+
+                        }
+                    }
+                }
+                break;
         }
     } else {
         cerr << "error in thread" << endl;
@@ -116,16 +235,55 @@ void *moveSE(void *t_data) {
     //cout << "MoveSE" <<endl;
     if (t_data != NULL) {
         Motor *m = (Motor *) t_data;
-        if (m->gameFinished())
-            cout << "SEgameFinished" << endl;
-        while (!m->gameFinished()) {
-            cout << "test MoveSE" << endl;
-            for (int i = 0; i < m->getListPlayers().size(); i++) {
-                Character p = m->getListPlayers()[i];
-                if (p.getX() >= 255 && p.getY() > 63 && !p.hasFinished()) {
-                    m->avancer(i, p);
+
+        switch (m->getNumEtape()) {
+            case 1:
+                while (!m->gameFinished()) {
+                    cout << "test MoveSE" << endl;
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if (p.getX() >= 255 && p.getY() > 63 && !p.hasFinished()) {
+                            m->avancer(i, p);
+                        }
+                    }
                 }
-            }
+                break;
+            case 2:
+                map<string, sem_t *> *semaphores = m->getSemaphores();
+
+                sem_t *semNO, *semNE, *semSO, *semSE;
+                semNO = semaphores->find("NO")->second;
+                semNE = semaphores->find("NE")->second;
+                semSO = semaphores->find("SO")->second;
+                semSE = semaphores->find("SE")->second;
+
+                while (!m->gameFinished()) {
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if(p.isOnSE() && !p.hasFinished()){
+                            sem_wait(semSE); //Debut Zone critique
+                            sem_t *near= nullptr;
+
+                            if(p.nearNE())
+                                near = semNE;
+                            else if(p.nearNO())
+                                near = semNO;
+                            else if(p.nearSO())
+                                near = semSO;
+                            if(near!= nullptr)
+                                sem_wait(near);
+
+                            m->avancer(i, p);
+
+                            if(near!= nullptr)
+                                sem_post(near);
+                            sem_post(semSE); //Fin Zone critique
+
+
+                        }
+                    }
+                }
+                break;
         }
     } else {
         cerr << "error in thread" << endl;
@@ -135,28 +293,36 @@ void *moveSE(void *t_data) {
 void *movePerson(void *t_data) {
     cout << "movePerson" << endl;
     if (t_data != NULL) {
-        thread_Struct *data = (struct thread_Struct *) t_data;
+        thread_Struct *data =  (thread_Struct* ) t_data;
+        int i = data->index;
         Motor *m = (data->m);
-        int index(data->index);
-        Character c = m->getListPlayers()[index];
-        while (!(c.getY() >= 60 && c.getY() <= 67 && c.getX() == 0) && !c.hasFinished()) {
-            m->avancer(index, c);
+        Character c = m->getListPlayers()[i];
+
+        while (!c.hasFinished()) {
+            if (c.getX() <= 0 && c.getY() <= 67 && c.getY() >= 60) {
+                m->removePlayer(i, c);
+            }
+            else {
+                m->avancer(i, c);
+            }
         }
-        int nbp = m->nbP();
-        cout <<  nbp << endl;
-        if (c.getX() <= 0 && c.getY() <= 67 ) {
-            m->removePlayer(index, c);
-        }
+        //int nbp = m->nbP();
+        //cout <<  nbp << endl;
+
     }
 }
 
 
-Motor::Motor(int nbPl, int nbTd, bool nbMs) {
+
+
+Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
     nbPlayers = nbPl;
     nbThreads = nbTd;
     needMeasures = nbMs;
     plateau = Plateau();
-    /*if(needMeasures){
+    numEtape = numEtap;
+
+    if(needMeasures){
 
      for(int i=0; i<5; i++){
       time_t startTime;
@@ -238,16 +404,17 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs) {
 
      //printf("Le temps moyen de calcul pour le programme est de %lf\n", moyenne);
    }
-   else{*/
+   else{
     this->createPlayers();
     this->run();
     //this->test();
-    //}
+    }
 }
 
 void Motor::run() {
 
     if (nbThreads == 0) { // On peut enlever ce thread et lancer dans le main
+        //Todo : creer le contexte
         pthread_t t0;
         pthread_create(&t0, NULL, moveAll, this);
         pthread_join(t0, NULL);
@@ -258,14 +425,50 @@ void Motor::run() {
         pthread_t t1;
         pthread_t t2;
         pthread_t t3;
-        pthread_create(&t0, NULL, moveNO, this); //s'occupe de la partie nord ouest
-        pthread_create(&t1, NULL, moveNE, this); //s'occupe de la partie nord est
-        pthread_create(&t2, NULL, moveSO, this); //s'occupe de la partie sud ouest
-        pthread_create(&t3, NULL, moveSE, this); //s'occupe de la partie sud est
-        pthread_join(t0, NULL);
-        pthread_join(t1, NULL);
-        pthread_join(t2, NULL);
-        pthread_join(t3, NULL);
+        if(numEtape == 1) {
+            pthread_create(&t0, NULL, moveNO, this); //s'occupe de la partie nord ouest
+            pthread_create(&t1, NULL, moveNE, this); //s'occupe de la partie nord est
+            pthread_create(&t2, NULL, moveSO, this); //s'occupe de la partie sud ouest
+            pthread_create(&t3, NULL, moveSE, this); //s'occupe de la partie sud est
+            pthread_join(t0, NULL);
+            pthread_join(t1, NULL);
+            pthread_join(t2, NULL);
+            pthread_join(t3, NULL);
+        }
+
+        if(numEtape == 2) {
+
+            sem_t sem_NO,sem_SE,sem_SO,sem_NE;
+            sem_init(&sem_NO, 0, 1);
+            sem_init(&sem_NE, 0, 1);
+            sem_init(&sem_SO, 0, 1);
+            sem_init(&sem_SE, 0, 1);
+
+            map<string,sem_t*> sem;
+            sem["NO"] = &sem_NO;
+            sem["NE"] = &sem_NE;
+            sem["SO"] = &sem_SO;
+            sem["SE"] = &sem_SE;
+            semaphores = &sem;
+
+
+            pthread_create(&t0, NULL, moveNO, this); //s'occupe de la partie nord ouest
+            pthread_create(&t1, NULL, moveNE, this); //s'occupe de la partie nord est
+            pthread_create(&t2, NULL, moveSO, this); //s'occupe de la partie sud ouest
+            pthread_create(&t3, NULL, moveSE, this); //s'occupe de la partie sud est
+
+            pthread_join(t0, NULL);
+            pthread_join(t1, NULL);
+            pthread_join(t2, NULL);
+            pthread_join(t3, NULL);
+
+            sem_destroy(&sem_NO);
+            sem_destroy(&sem_NE);
+            sem_destroy(&sem_SO);
+            sem_destroy(&sem_SE);
+
+        }
+
     }
 
     if (nbThreads == 2) {
@@ -454,4 +657,12 @@ void Motor::test() {
     cout << pt.getX() << endl;
     cout << pt.getY() << endl;
 
+}
+
+int Motor::getNumEtape() {
+    return numEtape;
+}
+
+map<string, sem_t *> *Motor::getSemaphores() {
+    return semaphores;
 }
