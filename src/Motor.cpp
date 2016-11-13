@@ -358,9 +358,9 @@ void Motor::avancer(int index, Character &p) {
 
     Point pt = changePosition(p.getX(), p.getY());
 
-    cout << index << " change from "<< p.getX() << "," << p.getY() << "to ";
+    /*scout << index << " change from "<< p.getX() << "," << p.getY() << "to ";
     pt.print();
-    cout <<  endl;
+    cout <<  endl;*/
 
     if (this->plateau.movePlayer(p.getX(), p.getY(), pt.getX(), pt.getY())) {
         p.move(pt);
