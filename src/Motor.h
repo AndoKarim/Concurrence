@@ -60,8 +60,7 @@ private :
 struct thread_Struct
 {
 	Motor* m;
-	Character c;
-    int index;
+  int index;
 };
 
 
