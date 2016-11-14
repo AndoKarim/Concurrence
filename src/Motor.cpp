@@ -21,7 +21,7 @@ void *moveAll(void *t_data) {
 
             for (int i = 0; i < m->getListPlayers().size(); i++) {
                 Character p = m->getListPlayers()[i];
-                if(!p.hasFinished()) {
+                if (!p.hasFinished()) {
                     m->avancer(i, p);
                     if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 67) {
                         m->removePlayer(i, p);
@@ -75,17 +75,17 @@ void *moveNO(void *t_data) {
                 while (!m->gameFinished()) {
                     for (int i = 0; i < m->getListPlayers().size(); i++) {
                         Character p = m->getListPlayers()[i];
-                        if(p.isOnNO() && !p.hasFinished()){
+                        if (p.isOnNO() && !p.hasFinished()) {
                             sem_wait(semNO); //Debut Zone critique
-                            sem_t *near= nullptr;
+                            sem_t *near = nullptr;
 
-                            if(p.nearSO())
+                            if (p.nearSO())
                                 near = semSO;
-                            else if(p.nearNE())
+                            else if (p.nearNE())
                                 near = semNE;
-                            else if(p.nearSE())
+                            else if (p.nearSE())
                                 near = semSE;
-                            if(near!= nullptr)
+                            if (near != nullptr)
                                 sem_wait(near);
 
                             if (p.getX() <= 0 && p.getY() >= 60) {
@@ -94,7 +94,7 @@ void *moveNO(void *t_data) {
                                 m->avancer(i, p);
                             }
 
-                            if(near!= nullptr)
+                            if (near != nullptr)
                                 sem_post(near);
                             sem_post(semNO); //Fin Zone critique
 
@@ -137,22 +137,22 @@ void *moveNE(void *t_data) {
                 while (!m->gameFinished()) {
                     for (int i = 0; i < m->getListPlayers().size(); i++) {
                         Character p = m->getListPlayers()[i];
-                        if(p.isOnNE() && !p.hasFinished()){
+                        if (p.isOnNE() && !p.hasFinished()) {
                             sem_wait(semNE); //Debut Zone critique
-                            sem_t *near= nullptr;
+                            sem_t *near = nullptr;
 
-                            if(p.nearSO())
+                            if (p.nearSO())
                                 near = semSO;
-                            else if(p.nearNO())
+                            else if (p.nearNO())
                                 near = semNO;
-                            else if(p.nearSE())
+                            else if (p.nearSE())
                                 near = semSE;
-                            if(near!= nullptr)
+                            if (near != nullptr)
                                 sem_wait(near);
 
                             m->avancer(i, p);
 
-                            if(near!= nullptr)
+                            if (near != nullptr)
                                 sem_post(near);
                             sem_post(semNE); //Fin Zone critique
 
@@ -200,17 +200,17 @@ void *moveSO(void *t_data) {
                 while (!m->gameFinished()) {
                     for (int i = 0; i < m->getListPlayers().size(); i++) {
                         Character p = m->getListPlayers()[i];
-                        if(p.isOnSO() && !p.hasFinished()){
+                        if (p.isOnSO() && !p.hasFinished()) {
                             sem_wait(semSO); //Debut Zone critique
-                            sem_t *near= nullptr;
+                            sem_t *near = nullptr;
 
-                            if(p.nearNE())
+                            if (p.nearNE())
                                 near = semNE;
-                            else if(p.nearNO())
+                            else if (p.nearNO())
                                 near = semNO;
-                            else if(p.nearSE())
+                            else if (p.nearSE())
                                 near = semSE;
-                            if(near!= nullptr)
+                            if (near != nullptr)
                                 sem_wait(near);
 
                             if (p.getX() <= 0 && p.getY() <= 67) {
@@ -219,7 +219,7 @@ void *moveSO(void *t_data) {
                                 m->avancer(i, p);
                             }
 
-                            if(near!= nullptr)
+                            if (near != nullptr)
                                 sem_post(near);
                             sem_post(semSO); //Fin Zone critique
 
@@ -263,22 +263,22 @@ void *moveSE(void *t_data) {
                 while (!m->gameFinished()) {
                     for (int i = 0; i < m->getListPlayers().size(); i++) {
                         Character p = m->getListPlayers()[i];
-                        if(p.isOnSE() && !p.hasFinished()){
+                        if (p.isOnSE() && !p.hasFinished()) {
                             sem_wait(semSE); //Debut Zone critique
-                            sem_t *near= nullptr;
+                            sem_t *near = nullptr;
 
-                            if(p.nearNE())
+                            if (p.nearNE())
                                 near = semNE;
-                            else if(p.nearNO())
+                            else if (p.nearNO())
                                 near = semNO;
-                            else if(p.nearSO())
+                            else if (p.nearSO())
                                 near = semSO;
-                            if(near!= nullptr)
+                            if (near != nullptr)
                                 sem_wait(near);
 
                             m->avancer(i, p);
 
-                            if(near!= nullptr)
+                            if (near != nullptr)
                                 sem_post(near);
                             sem_post(semSE); //Fin Zone critique
 
@@ -296,26 +296,28 @@ void *moveSE(void *t_data) {
 void *movePerson(void *t_data) {
     cout << "movePerson" << endl;
     if (t_data != NULL) {
-        thread_Struct *data =  (thread_Struct* ) t_data;
+        thread_Struct *data = (thread_Struct *) t_data;
         int i = data->index;
         Motor *m = (data->m);
         Character c = m->getListPlayers()[i];
-
         while (!c.hasFinished()) {
+            Character saveChar = c.clone();
+            map<string, sem_t *> sems;
+            if (m->getNumEtape() == 2)
+                sems = m->lockAround(c);
             if (c.getX() <= 0 && c.getY() <= 67 && c.getY() >= 60) {
                 m->removePlayer(i, c);
-            }
-            else {
+            } else {
                 m->avancer(i, c);
             }
+            if (m->getNumEtape() == 2)
+                m->unlockSemList(sems);
         }
         //int nbp = m->nbP();
         //cout <<  nbp << endl;
 
     }
 }
-
-
 
 
 Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
@@ -325,92 +327,91 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
     plateau = Plateau();
     numEtape = numEtap;
 
-    if(needMeasures){
+    if (needMeasures) {
 
-     for(int i=0; i<5; i++){
-      time_t startTime;
-      time(&startTime);
+        for (int i = 0; i < 5; i++) {
+            time_t startTime;
+            time(&startTime);
 
-       this->createPlayers();
-       //struct rusage r_usage;
-       clock_t start_t;
-       clock_t end_t;
-
-
-       start_t = clock();
-
-       this->run();
+            this->createPlayers();
+            //struct rusage r_usage;
+            clock_t start_t;
+            clock_t end_t;
 
 
-       end_t = clock ();
-       //t2 = time(0);
+            start_t = clock();
+
+            this->run();
 
 
-       measuresTab[i] = ((float)(end_t - start_t))/CLOCKS_PER_SEC;
-       time_t endTime;
-        time(&endTime);
+            end_t = clock();
+            //t2 = time(0);
 
-        timeMeasures[i] = difftime(endTime,startTime);
-       //time = time + (t2 - t1);
 
-       //getrusage(RUSAGE_SELF,&r_usage);
-       //maxResident = maxResident + r_usage.ru_maxrss;
+            measuresTab[i] = ((float) (end_t - start_t)) / CLOCKS_PER_SEC;
+            time_t endTime;
+            time(&endTime);
 
-       //printf("Memory usage = %ld\n",maxResident);
-       //printf("Memory usage = %ld\n",r_usage.ru_maxrss);
-       //printf("AVEC TIME ON OBTIENT = %ld\n",(t2 - t1));
-       //printf ("Temps d'execution pour %d---> %f.\n\n", i+1, measuresTab[i]);
-     }
+            timeMeasures[i] = difftime(endTime, startTime);
+            //time = time + (t2 - t1);
 
-     float max = measuresTab[0];
-     float min = measuresTab[0];
-     float moyenne;
-     int indiceMax = 0;
-     int indiceMin = 0;
+            //getrusage(RUSAGE_SELF,&r_usage);
+            //maxResident = maxResident + r_usage.ru_maxrss;
 
-     float maxTime = timeMeasures[0];
-     float minTime = timeMeasures[0];
-     double moyenneTime;
-     int indiceMaxTime = 0;
-     int indiceMinTime = 0;
+            //printf("Memory usage = %ld\n",maxResident);
+            //printf("Memory usage = %ld\n",r_usage.ru_maxrss);
+            //printf("AVEC TIME ON OBTIENT = %ld\n",(t2 - t1));
+            //printf ("Temps d'execution pour %d---> %f.\n\n", i+1, measuresTab[i]);
+        }
 
-     for(int i=1; i<5; i++){
-        if(max < measuresTab[i])
-          indiceMax = i;
-        if(min > measuresTab[i])
-          indiceMin = i;
+        float max = measuresTab[0];
+        float min = measuresTab[0];
+        float moyenne;
+        int indiceMax = 0;
+        int indiceMin = 0;
 
-        if(maxTime < timeMeasures[i])
-          indiceMaxTime = i;
-        if(minTime > timeMeasures[i])
-          indiceMinTime = i;
-       //moyenne = moyenne + measuresTab[i];
-       //printf("%f\n", measuresTab[i]);
-     }
+        float maxTime = timeMeasures[0];
+        float minTime = timeMeasures[0];
+        double moyenneTime;
+        int indiceMaxTime = 0;
+        int indiceMinTime = 0;
 
-     for(int i=0; i<5; i++){
-        if(i!=indiceMax && i!=indiceMin)
-          moyenne = moyenne + measuresTab[i];
+        for (int i = 1; i < 5; i++) {
+            if (max < measuresTab[i])
+                indiceMax = i;
+            if (min > measuresTab[i])
+                indiceMin = i;
 
-        if(i!=indiceMaxTime && i!=indiceMinTime)
-          moyenneTime = moyenneTime + timeMeasures[i];
-     }
+            if (maxTime < timeMeasures[i])
+                indiceMaxTime = i;
+            if (minTime > timeMeasures[i])
+                indiceMinTime = i;
+            //moyenne = moyenne + measuresTab[i];
+            //printf("%f\n", measuresTab[i]);
+        }
 
-     //printf("TOTAL DES TEMPS---->%f\n", moyenne);
-     moyenne = moyenne / 3;
-     moyenneTime = moyenneTime / 3;
-     //maxResident = maxResident / 3;
+        for (int i = 0; i < 5; i++) {
+            if (i != indiceMax && i != indiceMin)
+                moyenne = moyenne + measuresTab[i];
 
-     //printf ("Temps d'execution moyen ---> %f et une empreinte maximale moyenne de %ld.\n", moyenne, maxResident);
-     printf ("Temps d'execution moyen ---> %f.\n", moyenne);
-     printf ("Temps de réponse moyen ---> %f.\n", moyenneTime);
+            if (i != indiceMaxTime && i != indiceMinTime)
+                moyenneTime = moyenneTime + timeMeasures[i];
+        }
 
-     //printf("Le temps moyen de calcul pour le programme est de %lf\n", moyenne);
-   }
-   else{
-    this->createPlayers();
-    this->run();
-    //this->test();
+        //printf("TOTAL DES TEMPS---->%f\n", moyenne);
+        moyenne = moyenne / 3;
+        moyenneTime = moyenneTime / 3;
+        //maxResident = maxResident / 3;
+
+        //printf ("Temps d'execution moyen ---> %f et une empreinte maximale moyenne de %ld.\n", moyenne, maxResident);
+        printf("Temps d'execution moyen ---> %f.\n", moyenne);
+        printf("Temps de réponse moyen ---> %f.\n", moyenneTime);
+
+        //printf("Le temps moyen de calcul pour le programme est de %lf\n", moyenne);
+    } else {
+        this->createPlayers();
+        this->run();
+        //this->test();
     }
 }
 
@@ -428,7 +429,7 @@ void Motor::run() {
         pthread_t t1;
         pthread_t t2;
         pthread_t t3;
-        if(numEtape == 1) {
+        if (numEtape == 1) {
             pthread_create(&t0, NULL, moveNO, this); //s'occupe de la partie nord ouest
             pthread_create(&t1, NULL, moveNE, this); //s'occupe de la partie nord est
             pthread_create(&t2, NULL, moveSO, this); //s'occupe de la partie sud ouest
@@ -439,15 +440,15 @@ void Motor::run() {
             pthread_join(t3, NULL);
         }
 
-        if(numEtape == 2) {
+        if (numEtape == 2) {
 
-            sem_t sem_NO,sem_SE,sem_SO,sem_NE;
+            sem_t sem_NO, sem_SE, sem_SO, sem_NE;
             sem_init(&sem_NO, 0, 1);
             sem_init(&sem_NE, 0, 1);
             sem_init(&sem_SO, 0, 1);
             sem_init(&sem_SE, 0, 1);
 
-            map<string,sem_t*> sem;
+            map<string, sem_t *> sem;
             sem["NO"] = &sem_NO;
             sem["NE"] = &sem_NE;
             sem["SO"] = &sem_SO;
@@ -528,11 +529,11 @@ void Motor::printAllPlayers() {
         it->print();
 }
 
-int Motor::nbP(){
-    int j=0;
-    for(int i= 0 ; i< getListPlayers().size();i++){
+int Motor::nbP() {
+    int j = 0;
+    for (int i = 0; i < getListPlayers().size(); i++) {
         Character c = getListPlayers()[i];
-        if(!c.hasFinished())
+        if (!c.hasFinished())
             j++;
     }
     return j;
@@ -540,9 +541,9 @@ int Motor::nbP(){
 
 bool Motor::gameFinished() {
     //cout << "nb" <<this->listPlayers.size() << endl;
-    for(int i= 0 ; i< getListPlayers().size();i++){
+    for (int i = 0; i < getListPlayers().size(); i++) {
         Character c = getListPlayers()[i];
-        if(!c.hasFinished())
+        if (!c.hasFinished())
             return false;
     }
     return true;
@@ -659,7 +660,7 @@ Point Motor::changePosition(int x, int y) {
 
 void Motor::test() {
 
-    Point pt  = changePosition(363,68);
+    Point pt = changePosition(363, 68);
 
     cout << pt.getX() << endl;
     cout << pt.getY() << endl;
@@ -672,4 +673,35 @@ int Motor::getNumEtape() {
 
 map<string, sem_t *> *Motor::getSemaphores() {
     return semaphores;
+}
+
+map<string, sem_t *> Motor::lockAround(Character character) {
+    map<string, sem_t *> sems;
+    int tmpX = character.getX() - 1;
+    if (tmpX < 0) tmpX = 0;
+    int tmpY = character.getY() - 1;
+    if (tmpY < 0) tmpY = 0;
+
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 6; j++) {
+            int newX = tmpX + j;
+            int newY = tmpY + i;
+            if (newX > 511) newX = 511;
+            if (newY > 127) newY = 127;
+
+            sem_t *tmpMutex = plateau.getCase(newX, newY).mutex;
+            string s = newX + "," + newY;
+            if (sems.find(s)->second != tmpMutex) {
+                sems[s] = tmpMutex;
+                sem_wait(tmpMutex);
+            }
+        }
+    }
+    return sems;
+}
+
+void Motor::unlockSemList(map<string, sem_t *> sems) {
+    for (auto &kv : sems) {
+        sem_post(kv.second);
+    }
 }

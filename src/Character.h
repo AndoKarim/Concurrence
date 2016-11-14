@@ -33,11 +33,12 @@ class Character {
     bool isOnSO();
 
     bool nearSO();
-
     bool nearNE();
-
     bool nearSE();
-
     bool nearNO();
+
+    Character clone();
+
+
 };
 #endif

@@ -99,3 +99,10 @@ bool Character::nearNO() {
     if(getY() > 63 && getX()> 255)
         return getY()-1 == 63 && getX()-1 == 255;
 }
+
+
+Character Character::clone() {
+    Character result = Character(this->position);
+    result.finished = this->finished;
+    return result;
+}

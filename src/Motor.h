@@ -55,6 +55,10 @@ private :
 
 
     map<string, sem_t *> *getSemaphores();
+
+    map<string,sem_t*> lockAround(Character character);
+
+    void unlockSemList(map<string, sem_t *> sems);
 };
 
 struct thread_Struct
