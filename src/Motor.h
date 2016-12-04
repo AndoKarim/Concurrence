@@ -15,6 +15,8 @@ using namespace std;
 
 #include <semaphore.h>
 #include <map>
+#include "Monitor.h"
+#include "SynchroBarrier.h"
 
 
 class Motor{
@@ -30,6 +32,9 @@ private :
     double timeMeasures[5];
 
     map<string,sem_t*>* semaphores;
+
+    Monitor* monitor;
+    SynchroBarrier* barrier;
 
     void createPlayers();
 
@@ -52,6 +57,9 @@ private :
     int nbP();
 
     void test();
+
+    SynchroBarrier* getBarrier();
+    Monitor* getMonitor();
 
 
     map<string, sem_t *> *getSemaphores();

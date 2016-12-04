@@ -62,7 +62,7 @@ void *moveNO(void *t_data) {
           }
         }
         break;
-      case 2:
+      case 2:{
         map<string, sem_t *> *semaphores = m->getSemaphores();
 
         sem_t *semNO, *semNE, *semSO, *semSE;
@@ -106,7 +106,69 @@ void *moveNO(void *t_data) {
             }
           }
         }
+        m->getBarrier()->await();
+      }
         break;
+        case 3: {
+                Monitor *monitor = m->getMonitor();
+                pair<pthread_mutex_t, pthread_cond_t> monitorZoneNO = monitor->zoneNO;
+
+                while (!m->gameFinished()) {
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if (p.isOnNO() && !p.hasFinished()) {
+                            //Verrouillage de la zone
+                            pthread_mutex_lock(&(monitorZoneNO.first));
+
+                            while (!(monitor->availableZoneNO)) {
+                                pthread_cond_wait(&(monitorZoneNO.second), &(monitorZoneNO.first));
+                            }
+                            pthread_cond_signal(&(monitorZoneNO.second));
+
+                            pair<pthread_mutex_t, pthread_cond_t> *near;
+
+                            if (p.nearSO()) {
+                                near = &(monitor->zoneSO);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneSO)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            } else if (p.nearNE()){
+                                near = &(monitor->zoneNE);
+                            pthread_mutex_lock(&(near->first));
+
+                            while (!(monitor->availableZoneNE)) {
+                                pthread_cond_wait(&(near->second), &(near->first));
+                            }
+                            pthread_cond_signal(&(near->second));
+                            }
+                            else if (p.nearSE()) {
+                                near = &(monitor->zoneSE);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneSE)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            }
+
+                            m->avancer(i, p);
+                            if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
+                              m->removePlayer(i, p);
+                            }
+
+                            //Deverouillage
+                            if (near != nullptr)
+                                pthread_mutex_unlock(&(near->first));
+                            pthread_mutex_unlock(&(monitorZoneNO.first));
+                        }
+                    }
+                }
+                m->getBarrier()->await();
+            }
+                break;
     }
   } else {
     cerr << "error in thread" << endl;
@@ -139,7 +201,7 @@ void *moveNE(void *t_data) {
           }
         }
         break;
-      case 2:
+      case 2:{
         map<string, sem_t *> *semaphores = m->getSemaphores();
 
         sem_t *semNO, *semNE, *semSO, *semSE;
@@ -179,7 +241,70 @@ void *moveNE(void *t_data) {
             }
           }
         }
+        m->getBarrier()->await();
+      }
         break;
+        case 3: {
+                Monitor *monitor = m->getMonitor();
+                pair<pthread_mutex_t, pthread_cond_t> monitorZoneNE = monitor->zoneNE;
+
+                while (!m->gameFinished()) {
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if (p.isOnNE() && !p.hasFinished()) {
+                            //Verrouillage de la zone
+                            pthread_mutex_lock(&(monitorZoneNE.first));
+
+                            while (!(monitor->availableZoneNE)) {
+                                pthread_cond_wait(&(monitorZoneNE.second), &(monitorZoneNE.first));
+                            }
+                            pthread_cond_signal(&(monitorZoneNE.second));
+
+                            pair<pthread_mutex_t, pthread_cond_t> *near;
+
+                            if (p.nearSO()) {
+                                near = &(monitor->zoneSO);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneSO)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            } else if (p.nearNO()){
+                                near = &(monitor->zoneNO);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneNO)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            }
+                            else if (p.nearSE()) {
+                                near = &(monitor->zoneSE);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneSE)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            }
+
+                                m->avancer(i, p);
+              if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
+                m->removePlayer(i, p);
+              }
+
+                            //Deverouillage
+                            if (near != nullptr)
+                                pthread_mutex_unlock(&(near->first));
+                            pthread_mutex_unlock(&(monitorZoneNE.first));
+                        }
+                    }
+                }
+                m->getBarrier()->await();
+            }
+                break;
+
     }
   } else {
     cerr << "error in thread" << endl;
@@ -216,7 +341,7 @@ void *moveSO(void *t_data) {
           }
         }
         break;
-      case 2:
+      case 2:{
         map<string, sem_t *> *semaphores = m->getSemaphores();
 
         sem_t *semNO, *semNE, *semSO, *semSE;
@@ -260,7 +385,69 @@ void *moveSO(void *t_data) {
             }
           }
         }
+        m->getBarrier()->await();
+      }
         break;
+        case 3: {
+                Monitor *monitor = m->getMonitor();
+                pair<pthread_mutex_t, pthread_cond_t> monitorZoneSO = monitor->zoneSO;
+
+                while (!m->gameFinished()) {
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if (p.isOnSO() && !p.hasFinished()) {
+                            //Verrouillage de la zone
+                            pthread_mutex_lock(&(monitorZoneSO.first));
+
+                            while (!(monitor->availableZoneSO)) {
+                                pthread_cond_wait(&(monitorZoneSO.second), &(monitorZoneSO.first));
+                            }
+                            pthread_cond_signal(&(monitorZoneSO.second));
+
+                            pair<pthread_mutex_t, pthread_cond_t> *near;
+
+                            if (p.nearNE()) {
+                                near = &(monitor->zoneNE);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneNE)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            } else if (p.nearNO()){
+                                near = &(monitor->zoneNO);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneNO)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            }
+                            else if (p.nearSE()) {
+                                near = &(monitor->zoneSE);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneSE)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            }
+
+                            m->avancer(i, p);
+              if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
+                m->removePlayer(i, p);
+              }
+
+                            //Deverouillage
+                            if (near != nullptr)
+                                pthread_mutex_unlock(&(near->first));
+                            pthread_mutex_unlock(&(monitorZoneSO.first));
+                        }
+                    }
+                }
+                m->getBarrier()->await();
+            }
+                break;
     }
   } else {
     cerr << "error in thread" << endl;
@@ -293,7 +480,7 @@ void *moveSE(void *t_data) {
           }
         }
         break;
-      case 2:
+      case 2:{
         map<string, sem_t *> *semaphores = m->getSemaphores();
 
         sem_t *semNO, *semNE, *semSO, *semSE;
@@ -333,7 +520,69 @@ void *moveSE(void *t_data) {
             }
           }
         }
+        m->getBarrier()->await();
+      }
         break;
+        case 3: {
+                Monitor *monitor = m->getMonitor();
+                pair<pthread_mutex_t, pthread_cond_t> monitorZoneSE = monitor->zoneSE;
+
+                while (!m->gameFinished()) {
+                    for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        Character p = m->getListPlayers()[i];
+                        if (p.isOnSE() && !p.hasFinished()) {
+                            //Verrouillage de la zone
+                            pthread_mutex_lock(&(monitorZoneSE.first));
+
+                            while (!(monitor->availableZoneSE)) {
+                                pthread_cond_wait(&(monitorZoneSE.second), &(monitorZoneSE.first));
+                            }
+                            pthread_cond_signal(&(monitorZoneSE.second));
+
+                            pair<pthread_mutex_t, pthread_cond_t> *near;
+
+                            if (p.nearNE()) {
+                                near = &(monitor->zoneNE);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneNE)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            } else if (p.nearNO()){
+                                near = &(monitor->zoneNO);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneNO)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            }
+                            else if (p.nearSO()) {
+                                near = &(monitor->zoneSO);
+                                pthread_mutex_lock(&(near->first));
+
+                                while (!(monitor->availableZoneSO)) {
+                                    pthread_cond_wait(&(near->second), &(near->first));
+                                }
+                                pthread_cond_signal(&(near->second));
+                            }
+                                m->avancer(i, p);
+              if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
+                m->removePlayer(i, p);
+              }
+
+                            //Deverouillage
+                            if (near != nullptr)
+                                pthread_mutex_unlock(&(near->first));
+                            pthread_mutex_unlock(&(monitorZoneSE.first));
+                        }
+                    }
+                }
+
+                m->getBarrier()->await();
+            }
+                break;
     }
   } else {
     cerr << "error in thread" << endl;
@@ -348,8 +597,21 @@ void *movePerson(void *t_data) {
     Character c = m->getListPlayers()[i];
     while (!c.hasFinished()) {
       map<string, sem_t *> sems;
+      Monitor *monitor = m->getMonitor();
       if (m->getNumEtape() == 2)
         sems = m->lockAround(c);
+
+      if(m->getNumEtape()==3){
+                pthread_mutex_lock(&(monitor->mutex));
+                while(!(monitor->availableCharacter)){
+                    pthread_cond_wait(monitor->cond, &(monitor->mutex));
+                    cout << "signal" <<endl;
+                pthread_cond_signal(monitor->cond);
+                cout << "signalFin" <<endl;   
+                }          
+
+            }
+
 
       m->avancer(i, c);
       if (c.getX() <= 0 && c.getY() >= 60 && c.getY() <= 64) {
@@ -365,7 +627,14 @@ void *movePerson(void *t_data) {
       }*/
       if (m->getNumEtape() == 2)
         m->unlockSemList(sems);
+      if(m->getNumEtape()==3){
+                pthread_mutex_unlock(&(monitor->mutex));
+            }
+
     }
+    if (m->getNumEtape() == 2 || m->getNumEtape() == 3) {
+            m->getBarrier()->await();
+        }
   }
 }
 
@@ -457,6 +726,9 @@ void Motor::run() {
     pthread_t t1;
     pthread_t t2;
     pthread_t t3;
+
+    cout << "nbThreads = 1" <<endl;
+
     if (numEtape == 1) {
       pthread_create(&t0, NULL, moveNO, this); //s'occupe de la partie nord ouest
       pthread_create(&t1, NULL, moveNE, this); //s'occupe de la partie nord est
@@ -483,16 +755,15 @@ void Motor::run() {
       sem["SE"] = &sem_SE;
       semaphores = &sem;
 
+      barrier = new SynchroBarrier(4);
 
       pthread_create(&t0, NULL, moveNO, this); //s'occupe de la partie nord ouest
       pthread_create(&t1, NULL, moveNE, this); //s'occupe de la partie nord est
       pthread_create(&t2, NULL, moveSO, this); //s'occupe de la partie sud ouest
       pthread_create(&t3, NULL, moveSE, this); //s'occupe de la partie sud est
 
-      pthread_join(t0, NULL);
-      pthread_join(t1, NULL);
-      pthread_join(t2, NULL);
-      pthread_join(t3, NULL);
+      barrier->block();
+
 
       sem_destroy(&sem_NO);
       sem_destroy(&sem_NE);
@@ -501,12 +772,37 @@ void Motor::run() {
 
     }
 
+    if (numEtape == 3) {
+            //cout << "test" <<endl;
+            barrier = new SynchroBarrier(4);
+            monitor = new Monitor();
+            pthread_create(&t0, NULL, moveNO, this); //s'occupe de la partie nord ouest
+            pthread_create(&t1, NULL, moveNE, this); //s'occupe de la partie nord est
+            pthread_create(&t2, NULL, moveSO, this); //s'occupe de la partie sud ouest
+            pthread_create(&t3, NULL, moveSE, this); //s'occupe de la partie sud est
+
+            barrier->block();
+        }
+
   }
 
   if (nbThreads == 2) {
     vector<pthread_t> allThreads;
     int n = getListPlayers().size();
     int i = 0;
+
+    if (numEtape == 2 || numEtape == 3) {
+            barrier = new SynchroBarrier(n);
+    }
+
+        if(numEtape==3){
+            pthread_mutex_t lock;
+            pthread_mutex_init(&lock, NULL);
+            pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+
+            monitor = new Monitor(&cond,lock);
+        }
+
     vector<thread_Struct> alldata;
 
      while (i < n) {
@@ -526,12 +822,19 @@ void Motor::run() {
       i++;
     }
 
-    int a = allThreads.size();
-    int j = 0;
-    while (j < a) {
-      pthread_join(allThreads[j], NULL);
-      j++;
-    }
+    if (numEtape == 1) {
+
+
+            int a = allThreads.size();
+            int j = 0;
+            while (j < a) {
+                pthread_join(allThreads[j], NULL);
+                j++;
+            }
+        }
+        if (numEtape == 2 || numEtape == 3) {
+            barrier->block();
+        }
   }
 
 }
@@ -757,4 +1060,12 @@ void Motor::unlockSemList(map<string, sem_t *> sems) {
   for (auto &kv : sems) {
     sem_post(kv.second);
   }
+}
+
+SynchroBarrier *Motor::getBarrier() {
+    return barrier;
+}
+
+Monitor *Motor::getMonitor() {
+    return monitor;
 }

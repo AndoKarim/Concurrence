@@ -27,7 +27,7 @@ bool OptionChecker::checkPeople(int people) {
 
 bool OptionChecker::checkPhase(int phase) {
   //To be changed when 3rd phase is on track
-  return phase >0 && phase <3 ;
+  return phase >0 && phase <=3 ;
 }
 
 void OptionChecker::parameterFiller(int nbArgs, char *parameters[]) {
