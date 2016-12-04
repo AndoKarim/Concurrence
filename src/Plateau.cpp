@@ -90,6 +90,7 @@ bool Plateau::movePlayer(int x, int y, int new_x, int new_y) {
     }
     return true;
   }
+  return true;
 }
 
 bool Plateau::addPlayer(int x, int y) {
@@ -107,8 +108,10 @@ bool Plateau::addPlayer(int x, int y) {
 }
 
 void Plateau::removePlayer(int x, int y) {
+  //printf("LA PERSONNE EST EN %d, %d\n", y, x);
   for (int delta_y = 0; delta_y < 4; delta_y++) {
     for (int delta_x = 0; delta_x < 4; delta_x++) {
+      //printf("LA ENLEVE EN %d, %d\n", y + delta_y, x + delta_x);
       this->grille[y + delta_y][x + delta_x].isOccupied = 0;
     }
   }
@@ -123,13 +126,13 @@ void Plateau::printAllPlayersCases() {
   int count = 0;
   for (int i = 0; i < HEIGHT; i++) {
     for (int j = 0; j < WIDTH; j++) {
-      if (check(i, j) == 2) {
+      if (check(j, i) == 2) {
         printf("IL Y A UNE PERSONNE EN %d, %d\n", j, i);
         count++;
       }
     }
   }
-  cout << count / 16 << endl;
+  //cout << count / 16 << endl;
 
 }
 

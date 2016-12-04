@@ -9,7 +9,7 @@
 #include <iostream>
 #include <math.h>
 
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 
 
 using namespace std;
@@ -21,7 +21,7 @@ void initialisation(int nbPlayers, int nbThreads, bool needMeasures, int phase) 
 
 
 int main(int argc, char *argv[]) {
-  sf::RenderWindow window(sf::VideoMode(640,480,32),"Hello SFML");
+  /*sf::RenderWindow window(sf::VideoMode(640,480,32),"Hello SFML");
 
   sf::Font font;
   font.loadFromFile("OpenSans-Bold.ttf");
@@ -45,8 +45,8 @@ int main(int argc, char *argv[]) {
       window.display();
     }
   }
-  return 0;
-}
+  return 0;*/
+//}
 
 OptionChecker a = OptionChecker(argc, argv);
   int nbPlayers = (int) pow(2, a.getnbPeople());
