@@ -74,7 +74,4 @@ struct thread_Struct
 	Motor* m;
   int index;
 };
-
-
-
 #endif

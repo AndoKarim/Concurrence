@@ -12,8 +12,6 @@
 
 using namespace std;
 
-//TODO : If -t1, create a new constructor which gonna creates threads for diferent parts of the plateau.Else, create just a simple plateau
-
 Plateau::Plateau() {
   grille = Matrix(HEIGHT, Row(WIDTH));
   initialize();
@@ -108,10 +106,8 @@ bool Plateau::addPlayer(int x, int y) {
 }
 
 void Plateau::removePlayer(int x, int y) {
-  //printf("LA PERSONNE EST EN %d, %d\n", y, x);
   for (int delta_y = 0; delta_y < 4; delta_y++) {
     for (int delta_x = 0; delta_x < 4; delta_x++) {
-      //printf("LA ENLEVE EN %d, %d\n", y + delta_y, x + delta_x);
       this->grille[y + delta_y][x + delta_x].isOccupied = 0;
     }
   }
@@ -132,8 +128,6 @@ void Plateau::printAllPlayersCases() {
       }
     }
   }
-  //cout << count / 16 << endl;
-
 }
 
 

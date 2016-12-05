@@ -18,5 +18,4 @@ class Point {
     int getX();
     int getY();
 };
-
 #endif

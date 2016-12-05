@@ -1,6 +1,8 @@
-//
-// Created by anasse on 04/12/16.
-//
+/*****************************************************************
+ * SynchroBarrier.h
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
 
 #ifndef PROJET_SYNCHROBARRIER_H
 #define PROJET_SYNCHROBARRIER_H
@@ -18,6 +20,4 @@ public:
     void await();
     void block();
 };
-
-
-#endif //PROJET_SYNCHROBARRIER_H
+#endif

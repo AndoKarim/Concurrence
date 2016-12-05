@@ -44,22 +44,18 @@ bool Character::hasFinished() {
 }
 
 bool Character::isOnNO() {
-    //return getX() < 256 && getY() < 64 && getX() >= 0 && getY() >= 0;
     return getX() >= 0 && getX() <= 255 && getY() >= 0 && getY() <= 63;
 }
 
 bool Character::isOnNE(){
-    //return getX() >= 255 && getY() <=63 && getX() >= 0 && getY() >= 0;
     return getX() >= 256 && getX() <= 511 && getY() >= 0 && getY() <= 63;
 }
 
 bool Character::isOnSE(){
-    //return getX() >= 255 && getY() > 63 && getX() >= 0 && getY() >= 0;
     return getX() >= 256 && getX() <= 511 && getY() >= 64 && getY() <= 127;
 }
 
 bool Character::isOnSO(){
-    //return getX() < 256 && getY() > 63 && getX() >= 0 && getY() >= 0;
     return getX() >= 0 && getX() <= 255 && getY() >= 64 && getY() <= 127;
 }
 
@@ -71,16 +67,6 @@ bool Character::nearSO() {
       return true;
 
     return false;
-
-
-    /*if(getY() > 63 && getX()> 255)
-        return getX()-1 == 255;
-
-    if(getY() <= 63 && getX()<= 255)
-        return getY()+1 == 64;
-
-    if(getY() <= 63 && getX()> 255)
-        return getX()-1 == 255 && getY()+1 == 64;*/
 }
 
 bool Character::nearNE() {
@@ -91,10 +77,6 @@ bool Character::nearNE() {
       return true;
 
     return false;
-
-
-    /*if(getY() > 63 && getX()> 255)
-        return getY()-1 == 63;*/
 }
 
 bool Character::nearSE() {
@@ -105,10 +87,6 @@ bool Character::nearSE() {
       return true;
 
     return false;
-
-
-    /*if(getY() <= 63 && getX()> 255)
-        return getY()+1 == 64;*/
 }
 
 bool Character::nearNO() {
@@ -119,14 +97,5 @@ bool Character::nearNO() {
       return true;
 
     return false;
-
-    /*if(getY() <= 63 && getX()> 255)
-        return getX()-1 == 255;
-    if(getY() > 63 && getX() <= 255)
-        return getY()-1 == 63;
-
-
-    if(getY() > 63 && getX()> 255)
-        return getY()-1 == 63 && getX()-1 == 255;*/
 }
 

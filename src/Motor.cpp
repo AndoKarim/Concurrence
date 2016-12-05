@@ -40,7 +40,6 @@ void *moveNO(void *t_data) {
     switch (m->getNumEtape()) {
       case 1:
         while (!m->gameFinished()) {
-          // cout << "testNO" << endl;
           for (int i = 0; i < m->getListPlayers().size(); i++) {
             Character p = m->getListPlayers()[i];
 
@@ -50,15 +49,6 @@ void *moveNO(void *t_data) {
                 m->removePlayer(i, p);
               }
             }
-
-            /*if (p.getX() < 256 && p.getY() < 64 && !p.hasFinished()) {
-
-              if (p.getX() <= 0 && p.getY() >= 60) {
-                m->removePlayer(i, p);
-              } else {
-                m->avancer(i, p);
-              }
-            }*/
           }
         }
         break;
@@ -86,13 +76,6 @@ void *moveNO(void *t_data) {
                 near = semSE;
               if (near != nullptr)
                 sem_wait(near);
-
-              /*if (p.getX() <= 0 && p.getY() >= 60) {
-                m->removePlayer(i, p);
-              } else {
-                m->avancer(i, p);
-              }*/
-
               m->avancer(i, p);
               if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
                 m->removePlayer(i, p);
@@ -186,18 +169,12 @@ void *moveNE(void *t_data) {
           for (int i = 0; i < m->getListPlayers().size(); i++) {
             Character p = m->getListPlayers()[i];
             
-
             if(p.getX() >= 256 && p.getX() <= 511 && p.getY() >= 0 && p.getY() <= 63 && !p.hasFinished()){
               m->avancer(i, p);
               if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
                 m->removePlayer(i, p);
               }
             }
-
-
-            /*if (p.getX() >= 255 && p.getY() < 64 && !p.hasFinished()) {
-              m->avancer(i, p);
-            }*/
           }
         }
         break;
@@ -225,9 +202,6 @@ void *moveNE(void *t_data) {
                 near = semSE;
               if (near != nullptr)
                 sem_wait(near);
-
-              //m->avancer(i, p);
-
               m->avancer(i, p);
               if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
                 m->removePlayer(i, p);
@@ -289,10 +263,11 @@ void *moveNE(void *t_data) {
                                 pthread_cond_signal(&(near->second));
                             }
 
-                                m->avancer(i, p);
-              if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
-                m->removePlayer(i, p);
-              }
+                            m->avancer(i, p);
+
+                            if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
+                              m->removePlayer(i, p);
+                            }
 
                             //Deverouillage
                             if (near != nullptr)
@@ -304,7 +279,6 @@ void *moveNE(void *t_data) {
                 m->getBarrier()->await();
             }
                 break;
-
     }
   } else {
     cerr << "error in thread" << endl;
@@ -319,7 +293,6 @@ void *moveSO(void *t_data) {
     switch (m->getNumEtape()) {
       case 1:
         while (!m->gameFinished()) {
-          // cout << "test MoveSO" << endl;
           for (int i = 0; i < m->getListPlayers().size(); i++) {
             Character p = m->getListPlayers()[i];
 
@@ -329,15 +302,6 @@ void *moveSO(void *t_data) {
                 m->removePlayer(i, p);
               }
             }
-
-
-            /*if (p.getX() < 256 && p.getY() > 63 && !p.hasFinished()) {
-              if (p.getX() <= 0 && p.getY() <= 67) {
-                m->removePlayer(i, p);
-              } else {
-                m->avancer(i, p);
-              }
-            }*/
           }
         }
         break;
@@ -365,12 +329,6 @@ void *moveSO(void *t_data) {
                 near = semSE;
               if (near != nullptr)
                 sem_wait(near);
-
-              /*if (p.getX() <= 0 && p.getY() <= 67) {
-                m->removePlayer(i, p);
-              } else {
-                m->avancer(i, p);
-              }*/
 
               m->avancer(i, p);
               if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
@@ -434,9 +392,9 @@ void *moveSO(void *t_data) {
                             }
 
                             m->avancer(i, p);
-              if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
-                m->removePlayer(i, p);
-              }
+                            if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
+                              m->removePlayer(i, p);
+                            }
 
                             //Deverouillage
                             if (near != nullptr)
@@ -473,10 +431,6 @@ void *moveSE(void *t_data) {
                 m->removePlayer(i, p);
               }
             }
-
-            /*if (p.getX() >= 255 && p.getY() > 63 && !p.hasFinished()) {
-              m->avancer(i, p);
-            }*/
           }
         }
         break;
@@ -504,8 +458,6 @@ void *moveSE(void *t_data) {
                 near = semSO;
               if (near != nullptr)
                 sem_wait(near);
-
-              //m->avancer(i, p);
 
               m->avancer(i, p);
               if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
@@ -567,10 +519,11 @@ void *moveSE(void *t_data) {
                                 }
                                 pthread_cond_signal(&(near->second));
                             }
-                                m->avancer(i, p);
-              if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
-                m->removePlayer(i, p);
-              }
+
+                            m->avancer(i, p);
+                            if (p.getX() <= 0 && p.getY() >= 60 && p.getY() <= 64) {
+                              m->removePlayer(i, p);
+                            }
 
                             //Deverouillage
                             if (near != nullptr)
@@ -578,8 +531,7 @@ void *moveSE(void *t_data) {
                             pthread_mutex_unlock(&(monitorZoneSE.first));
                         }
                     }
-                }
-
+                } 
                 m->getBarrier()->await();
             }
                 break;
@@ -605,9 +557,7 @@ void *movePerson(void *t_data) {
                 pthread_mutex_lock(&(monitor->mutex));
                 while(!(monitor->availableCharacter)){
                     pthread_cond_wait(monitor->cond, &(monitor->mutex));
-                    cout << "signal" <<endl;
-                pthread_cond_signal(monitor->cond);
-                cout << "signalFin" <<endl;   
+                    pthread_cond_signal(monitor->cond);
                 }          
 
             }
@@ -617,14 +567,6 @@ void *movePerson(void *t_data) {
       if (c.getX() <= 0 && c.getY() >= 60 && c.getY() <= 64) {
         m->removePlayer(i, c);
       }
-
-
-
-      /*if (c.getX() <= 0 && c.getY() <= 64 && c.getY() >= 60) {
-        m->removePlayer(i, c);
-      } else {
-        m->avancer(i, c);
-      }*/
       if (m->getNumEtape() == 2)
         m->unlockSemList(sems);
       if(m->getNumEtape()==3){
@@ -647,9 +589,10 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
   numEtape = numEtap;
 
   if (needMeasures) {
+    printf("\n");
 
     for (int i = 0; i < 5; i++) {
-      printf("Debut du %d\n", i+1);
+      cout << "Debut du " << i+1 << endl;
       time_t startTime;
       time(&startTime);
 
@@ -664,8 +607,7 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
       time_t endTime;
       time(&endTime);
       timeMeasures[i] = difftime(endTime, startTime);
-
-      printf("Fin du %d\n\n", i+1);
+      cout << "Fin du " << i+1 << endl << endl;
     }
 
     float max = measuresTab[0];
@@ -703,8 +645,9 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
     moyenne = moyenne / 3;
     moyenneTime = moyenneTime / 3;
 
-    printf("Temps d'execution moyen ---> %f.\n", moyenne);
-    printf("Temps de réponse moyen ---> %f.\n", moyenneTime);
+    printf("Moyennes des mesures:\n");
+    printf("Temps d'execution moyen ---> %.3f s.\n", moyenne);
+    printf("Temps de réponse moyen ---> %.3f s.\n", moyenneTime);
 
   } else {
     this->createPlayers();
@@ -715,7 +658,6 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
 void Motor::run() {
 
   if (nbThreads == 0) { // On peut enlever ce thread et lancer dans le main
-    //Todo : creer le contexte
     pthread_t t0;
     pthread_create(&t0, NULL, moveAll, this);
     pthread_join(t0, NULL);
@@ -726,8 +668,6 @@ void Motor::run() {
     pthread_t t1;
     pthread_t t2;
     pthread_t t3;
-
-    cout << "nbThreads = 1" <<endl;
 
     if (numEtape == 1) {
       pthread_create(&t0, NULL, moveNO, this); //s'occupe de la partie nord ouest
@@ -773,7 +713,6 @@ void Motor::run() {
     }
 
     if (numEtape == 3) {
-            //cout << "test" <<endl;
             barrier = new SynchroBarrier(4);
             monitor = new Monitor();
             pthread_create(&t0, NULL, moveNO, this); //s'occupe de la partie nord ouest
@@ -813,11 +752,8 @@ void Motor::run() {
 
     i=0;
     while (i < n) {
-      //struct thread_Struct data = {this, i};
       pthread_t tmp;
       pthread_create(&tmp, NULL, movePerson, (void *) &alldata[i]);
-      //pthread_create(&tmp, NULL, movePerson, this);
-      //sleep(0.1);
       allThreads.push_back(tmp);
       i++;
     }
@@ -860,7 +796,6 @@ void Motor::createPlayers() {
 void Motor::removePlayer(int i, Character &c) {
   c.finish();
   this->listPlayers[i] = c;
-  //this->listPlayers.erase(this->listPlayers.begin() + i);
   this->plateau.removePlayer(c.getX(), c.getY());
 }
 
@@ -888,7 +823,6 @@ bool Motor::gameFinished() {
       return false;
   }
   return true;
-  //return this->listPlayers.size() == 0;
 }
 
 vector<Character> Motor::getListPlayers() {
@@ -909,7 +843,6 @@ void Motor::avancer(int index, Character &p) {
     p.move(pt);
   }
   listPlayers[index] = p;
-  //plateau.printAllPlayersCases();
 }
 
 Point Motor::changePosition(int x, int y) {
@@ -919,11 +852,8 @@ Point Motor::changePosition(int x, int y) {
 
   if ((y < (plateau.getHeigth() - plateau.getOpenHeigthWall1()) / 2 && x < plateau.getWidthLastWall())
       || (y < (plateau.getHeigth() - plateau.getOpenHeigthWall2()) / 2 && x >= plateau.getWidthLastWall())) {
-    //if((y<60 && x <128)|| (y<56 && x>=128))
     for (int i = 0; i < 5; i++) {
       if (plateau.check(x - 1, y + i)) {
-        //printf("Il y a quelqu'un en %d, %d \n",x-1, y+i);
-        //cout << plateau.getCase(x-1, y+1).isOccupied << endl;
         if (i != 4)
           LockH = 1;
         if (i != 0)
@@ -932,35 +862,24 @@ Point Motor::changePosition(int x, int y) {
     }
     for (int i = 0; i < 4; i++) {
       if (plateau.check(x + i, y + 4)) {
-        //printf("Il y a quelqu'un en %d, %d \n",x+i, y+4);
-
-
         LockV = 1;
         if (i != 3)
           LockD = 1;
       }
     }
-    //printf("0-->avant: %d, %d \n", x, y);
     if (LockD == 0) {
-      //printf("1-->apres: %d, %d \n", x-1, y+1);
       return Point(x - 1, y + 1);
     } else if (LockH == 0) {
-      //printf("2-->apres: %d, %d \n", x-1, y);
       return Point(x - 1, y);
     } else if (LockV == 0) {
-      //printf("3-->apres: %d, %d \n", x, y+1);
-
       return Point(x, y + 1);
     } else {
-      //printf("4-->apres: %d, %d \n", x, y);
 
       return Point(x, y);
     }
   } else if ((y >= ((plateau.getHeigth() + plateau.getOpenHeigthWall1()) / 2) - 3 && x < plateau.getWidthLastWall())
              || (y >= ((plateau.getHeigth() + plateau.getOpenHeigthWall2()) / 2) - 3 &&
                  x >= plateau.getWidthLastWall())) {
-
-    //if((y>=65 && x <128)|| (y>=69 && x>=128))
 
     for (int i = 0; i < 5; i++) {
       if (plateau.check(x - 1, y - i + 3)) {
@@ -977,38 +896,26 @@ Point Motor::changePosition(int x, int y) {
           LockD = 1;
       }
     }
-    //printf("0-->avant: %d, %d \n", x, y);
 
     if (LockD == 0) {
-      //printf("5-->apres: %d, %d \n", x-1, y-1);
       return Point(x - 1, y - 1);
     } else if (LockH == 0) {
-      //printf("6-->apres: %d, %d \n", x-1, y);
       return Point(x - 1, y);
     } else if (LockV == 0) {
-      //printf("7-->apres: %d, %d \n", x, y-1);
       return Point(x, y - 1);
     } else {
-      //printf("8-->apres: %d, %d \n", x, y);
       return Point(x, y);
     }
   } else  {
     for (int i = 0; i < 4; i++) {
       if (plateau.check(x - 1, y + i)) {
-        //printf("Il y a quelqu'un en %d, %d \n",x-1, y+i);
-        //cout << plateau.getCase(x-1, y+i).isOccupied << endl;
-
         LockH = 1;
       }
     }
-    //printf("0-->avant: %d, %d \n", x, y);
 
     if (LockH == 0) {
-      //printf("9-->apres: %d, %d \n", x-1, y);
       return Point(x - 1, y);
     } else {
-      //printf("10-->apres: %d, %d \n", x, y);
-
       return Point(x, y);
     }
   }

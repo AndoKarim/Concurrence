@@ -32,6 +32,5 @@ public:
     bool getMeasures();
     int getnbPhase();
 
-    };
-
+};
 #endif

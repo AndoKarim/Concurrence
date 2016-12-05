@@ -1,6 +1,8 @@
-//
-// Created by anasse on 04/12/16.
-//
+/*****************************************************************
+ * SynchroBarrier.cpp
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
 
 #include "SynchroBarrier.h"
 #include <iostream>
@@ -13,11 +15,9 @@ SynchroBarrier::SynchroBarrier(int i){
 
 void SynchroBarrier::await(){
     nbThread--;
-    cout<<"Encore "<<nbThread<<" threads à attendre"<<endl;
 }
 
 void SynchroBarrier::block(){
     while(nbThread!=0){}
-    cout<<"\nTous le monde est a la barriere"<<endl;
     sem_post(&(this->join));
 }

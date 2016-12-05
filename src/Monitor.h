@@ -34,6 +34,4 @@ public:
     Monitor(pthread_cond_t* cond,pthread_mutex_t& mutex);
 
 };
-
-
-#endif //PROJET_MONITOR_H
+#endif

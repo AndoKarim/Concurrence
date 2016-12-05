@@ -19,7 +19,6 @@ typedef vector<Row> Matrix; // Matrix: a vector of rows
 
 class Plateau{
   private :
-
   //Size of the Map
   const unsigned WIDTH = 512;
   const unsigned HEIGHT = 128;
@@ -30,7 +29,6 @@ class Plateau{
   const unsigned XAZIMUT = 0;
   const unsigned YAZIMUT = 63;
   const unsigned WIDTHLASTWALL = 128;
-  //Initialize all points at 0 (free)
   Matrix grille;
   void initialize();
 
@@ -51,9 +49,6 @@ class Plateau{
     bool movePlayer(int x, int y, int new_x, int new_y);
     void printAllPlayersCases();
     void removePlayer(int x, int y);
-
-
-
     // clone
     Plateau& operator=(const Plateau&);
 
