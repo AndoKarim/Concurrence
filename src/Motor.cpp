@@ -12,6 +12,57 @@
 
 using namespace std;
 
+void *print(void *p_data){
+    cout << ">> debut thread graphique" << endl;
+    if (p_data != nullptr) {
+        Motor *m = (Motor *) p_data;
+        Plateau *ptr_plateau = m->getPlateau();
+        sf::RenderWindow window(sf::VideoMode(512, 128), "Titre");
+        window.clear(sf::Color(214, 214, 214));
+
+        sf::Color black = sf::Color::Black;
+        sf::Color white = sf::Color::White;
+        sf::Color red = sf::Color::Red;
+
+        while (window.isOpen() && !m->gameFinished()) {
+            if (m->gameFinished()) {
+                break;
+            }
+            window.clear();
+            for (int i = 0; i < 512; i++) {
+                for (int j = 0; j < 128; j++) {
+                    sf::RectangleShape rectangle;
+                    rectangle.setSize(sf::Vector2f(1, 1)); // Taille (1x1)
+                    rectangle.setPosition(i, j); //Position sur l'écran");
+                    //sa couleur :
+                    int test = ptr_plateau->getCase(i,j).isOccupied;
+                    switch (test) {
+                        case 2 :
+                            rectangle.setFillColor(black);
+                            break;
+                        case 1 :
+                            rectangle.setFillColor(red);
+                            break;
+
+                    }
+                    window.draw(rectangle);
+
+                }
+            }
+            cout << "nn"<<endl;
+            window.display();
+            cout << "nnnok"<<endl;
+            cout << m->nbP() <<endl;
+        }
+        cout << "la simulation est terminée" << endl;
+        window.close();
+        //}
+    } else {
+        cout << "problème dans la récupération du contexte applicatif du thread (affichage graphique)" << endl;
+    }
+    cout << ">> fin du thread graphique" << endl;
+}
+
 
 void *moveAll(void *t_data) {
 
@@ -20,6 +71,7 @@ void *moveAll(void *t_data) {
     while (!m->gameFinished()) {
 
       for (int i = 0; i < m->getListPlayers().size(); i++) {
+          usleep(5000);
         Character p = m->getListPlayers()[i];
         if (!p.hasFinished()) {
           m->avancer(i, p);
@@ -42,6 +94,7 @@ void *moveNO(void *t_data) {
       case 1:
         while (!m->gameFinished()) {
           for (int i = 0; i < m->getListPlayers().size(); i++) {
+              usleep(5000);
             Character p = m->getListPlayers()[i];
 
             if(p.getX() >= 0 && p.getX() <= 255 && p.getY() >= 0 && p.getY() <= 63 && !p.hasFinished()){
@@ -65,6 +118,7 @@ void *moveNO(void *t_data) {
         while (!m->gameFinished()) {
           for (int i = 0; i < m->getListPlayers().size(); i++) {
             Character p = m->getListPlayers()[i];
+              usleep(5000);
             if (p.isOnNO() && !p.hasFinished()) {
               sem_wait(semNO); //Debut Zone critique
               sem_t *near = nullptr;
@@ -99,6 +153,7 @@ void *moveNO(void *t_data) {
 
                 while (!m->gameFinished()) {
                     for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        usleep(5000);
                         Character p = m->getListPlayers()[i];
                         if (p.isOnNO() && !p.hasFinished()) {
                             //Verrouillage de la zone
@@ -168,6 +223,7 @@ void *moveNE(void *t_data) {
         while (!m->gameFinished()) {
 
           for (int i = 0; i < m->getListPlayers().size(); i++) {
+              usleep(5000);
             Character p = m->getListPlayers()[i];
             
             if(p.getX() >= 256 && p.getX() <= 511 && p.getY() >= 0 && p.getY() <= 63 && !p.hasFinished()){
@@ -190,6 +246,7 @@ void *moveNE(void *t_data) {
 
         while (!m->gameFinished()) {
           for (int i = 0; i < m->getListPlayers().size(); i++) {
+              usleep(5000);
             Character p = m->getListPlayers()[i];
             if (p.isOnNE() && !p.hasFinished()) {
               sem_wait(semNE); //Debut Zone critique
@@ -225,6 +282,7 @@ void *moveNE(void *t_data) {
 
                 while (!m->gameFinished()) {
                     for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        usleep(5000);
                         Character p = m->getListPlayers()[i];
                         if (p.isOnNE() && !p.hasFinished()) {
                             //Verrouillage de la zone
@@ -295,6 +353,7 @@ void *moveSO(void *t_data) {
       case 1:
         while (!m->gameFinished()) {
           for (int i = 0; i < m->getListPlayers().size(); i++) {
+              usleep(5000);
             Character p = m->getListPlayers()[i];
 
             if(p.getX() >= 0 && p.getX() <= 255 && p.getY() >= 64 && p.getY() <= 127 && !p.hasFinished()){
@@ -317,6 +376,7 @@ void *moveSO(void *t_data) {
 
         while (!m->gameFinished()) {
           for (int i = 0; i < m->getListPlayers().size(); i++) {
+              usleep(5000);
             Character p = m->getListPlayers()[i];
             if (p.isOnSO() && !p.hasFinished()) {
               sem_wait(semSO); //Debut Zone critique
@@ -353,6 +413,7 @@ void *moveSO(void *t_data) {
 
                 while (!m->gameFinished()) {
                     for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        usleep(5000);
                         Character p = m->getListPlayers()[i];
                         if (p.isOnSO() && !p.hasFinished()) {
                             //Verrouillage de la zone
@@ -423,6 +484,7 @@ void *moveSE(void *t_data) {
         while (!m->gameFinished()) {
 
           for (int i = 0; i < m->getListPlayers().size(); i++) {
+              usleep(5000);
             Character p = m->getListPlayers()[i];
 
 
@@ -446,6 +508,7 @@ void *moveSE(void *t_data) {
 
         while (!m->gameFinished()) {
           for (int i = 0; i < m->getListPlayers().size(); i++) {
+              usleep(5000);
             Character p = m->getListPlayers()[i];
             if (p.isOnSE() && !p.hasFinished()) {
               sem_wait(semSE); //Debut Zone critique
@@ -482,6 +545,7 @@ void *moveSE(void *t_data) {
 
                 while (!m->gameFinished()) {
                     for (int i = 0; i < m->getListPlayers().size(); i++) {
+                        usleep(5000);
                         Character p = m->getListPlayers()[i];
                         if (p.isOnSE() && !p.hasFinished()) {
                             //Verrouillage de la zone
@@ -549,6 +613,7 @@ void *movePerson(void *t_data) {
     Motor *m = (data->m);
     Character c = m->getListPlayers()[i];
     while (!c.hasFinished()) {
+        usleep(5000);
       map<string, sem_t *> sems;
       Monitor *monitor = m->getMonitor();
       if (m->getNumEtape() == 2)
@@ -600,9 +665,13 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
       this->createPlayers();
       clock_t start_t;
       clock_t end_t;
-      Graph::print(this);
+        pthread_t tGraph;
+        pthread_create(&tGraph, NULL, print, this);
+      //Graph::print(this);
+        cout << "ok"<<endl;
       start_t = clock();
       this->run();
+        pthread_join(tGraph, NULL);
       end_t = clock();
       measuresTab[i] = ((float) (end_t - start_t)) / CLOCKS_PER_SEC;
       time_t endTime;
@@ -652,8 +721,12 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
 
   } else {
     this->createPlayers();
-    Graph::print(this);
+      pthread_t tGraph;
+      pthread_create(&tGraph, NULL, print, this);
+    //Graph::print(this);
+      cout << "ok"<<endl;
     this->run();
+      pthread_join(tGraph, NULL);
   }
 }
 
