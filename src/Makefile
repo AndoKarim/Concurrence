@@ -9,7 +9,7 @@ OBJECTS = $(SOURCES:.cpp=.o)
 
 # Main target
 $(EXEC): $(OBJECTS)
-	$(CC) ../bin/*.o -o ../bin/$(EXEC) -lpthread
+	$(CC) ../bin/*.o -o ../bin/$(EXEC) -lpthread 
 
 # To obtain object files
 %.o: %.cpp

@@ -8,6 +8,7 @@
 #include <vector>
 #include "Motor.h"
 #include <unistd.h>
+#include "Graph.h"
 
 using namespace std;
 
@@ -599,7 +600,7 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
       this->createPlayers();
       clock_t start_t;
       clock_t end_t;
-
+      Graph::print(this);
       start_t = clock();
       this->run();
       end_t = clock();
@@ -651,6 +652,7 @@ Motor::Motor(int nbPl, int nbTd, bool nbMs, int numEtap) {
 
   } else {
     this->createPlayers();
+    Graph::print(this);
     this->run();
   }
 }
@@ -975,4 +977,8 @@ SynchroBarrier *Motor::getBarrier() {
 
 Monitor *Motor::getMonitor() {
     return monitor;
+}
+
+Plateau * Motor::getPlateau(){
+  return &plateau;
 }

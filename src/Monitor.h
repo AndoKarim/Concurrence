@@ -1,6 +1,8 @@
-//
-// Created by anasse on 04/12/16.
-//
+/*****************************************************************
+ * Monitor.h
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
 
 #ifndef PROJET_MONITOR_H
 #define PROJET_MONITOR_H

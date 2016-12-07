@@ -1,6 +1,8 @@
-//
-// Created by anasse on 04/12/16.
-//
+/*****************************************************************
+ * Monitor.cpp
+ * Team 22
+ * Authors : Abdelkarim Andolerzak & Anasse Ghira & Nicolas Pepin
+ ****************************************************************/
 
 #include "Monitor.h"
 #include <iostream>

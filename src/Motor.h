@@ -53,6 +53,7 @@ private :
     void avancer(int i,Character& p);
     void removePlayer(int i, Character& c);
 	int getNumEtape();
+    Plateau *getPlateau();
 
     int nbP();
 
